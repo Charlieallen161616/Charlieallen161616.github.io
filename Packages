@@ -34,6 +34,7 @@ Depends: firmware (<7.0)
 Architechture: iphoneos-arm
 Filename: ./debs/com.charlieallen161616.appdowngrader_0.0.2-7_iphoneos-arm.deb
 Size: 52
+MD5sum: 814bfbfb309e70b575af5afe9e897e5d
 Description: this is app downgrader
 Name: App Downgrader
 Author: The Owner Of The Repo
