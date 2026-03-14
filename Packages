@@ -28,7 +28,7 @@ Depiction: https://supermamon.github.io/Reposi3/depictions/?p=com.supermamon.old
 
 Package: com.charlieallen161616.appdowngrader
 Version: 0.0.2-7
-Section: Utilities
+Section: Tweaks
 Maintainer: Charlieallen16's Repository
 Depends: firmware (<7.0)
 Architechture: iphoneos-arm
