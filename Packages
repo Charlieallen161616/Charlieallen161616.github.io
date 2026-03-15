@@ -48,6 +48,6 @@ Maintainer: Charlieallen16's Repository
 Author: the repo author's imac
 Section: Games
 Filename: ./debs/FluppitBird.deb
-Size: 1900
+Size: 1942
 MD5sum: 65e690ca21349cf6b568dbc7b244b8ee
 Depends: firmware (<7.0)
