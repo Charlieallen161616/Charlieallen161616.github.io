@@ -39,14 +39,15 @@ Description: this is app downgrader
 Name: App Downgrader
 Author: The Owner Of The Repo
 
-Package: com.user.fluppitbird
+Package: com.charlieallen161616.fluppitbird
 Name: Fluppit Bird
 Version: 1.0
 Architecture: iphoneos-arm
 Description: A bouncy bird game for iOS 6.
-Maintainer: user
+Maintainer: Charlieallen16's Repository
 Author: the repo author's imac
 Section: Games
 Filename: ./debs/FluppitBird.deb
 Size: 1945
-MD5sum: 68b329da9893e34099c7d8ad5cb9c940
+MD5sum: 65e690ca21349cf6b568dbc7b244b8ee
+Depends: firmware (<7.0)
