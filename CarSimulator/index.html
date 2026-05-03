@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HURACAN SIMULATOR 5</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #000; font-family: 'Arial Black', sans-serif; }
+        
+        #title-screen {
+            position: absolute; inset: 0; z-index: 9999;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1000&q=80');
+            background-size: cover; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white;
+        }
+
+        .btn { 
+            padding: 30px 80px; background: #f00; border: 4px solid #fff; font-size: 32px; 
+            font-weight: 900; cursor: pointer; color: #fff; text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
+        }
+        .btn:hover { background: #fff; color: #f00; }
+
+        #speedo { position: absolute; bottom: 30px; right: 40px; color: #fff; font-size: 70px; font-weight: 900; font-style: italic; display: none; z-index: 100; text-shadow: 4px 4px #000; }
+        #social-overlay { position: absolute; top: 20px; right: 20px; z-index: 10000; }
+        .social-btn { background: #f00; color: #fff; padding: 12px 24px; text-decoration: none; border: 2px solid #fff; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="title-screen">
+        <h1>HURACAN SIMULATOR 5</h1>
+        <p>MANUAL REV SYSTEM ACTIVE</p>
+        <button class="btn" id="startBtn">LAUNCH ENGINE</button>
+    </div>
+
+    <div id="speedo">0<span style="font-size:25px;"> KM/H</span></div>
+    
+    <div id="social-overlay">
+        <a href="https://youtube.com/@charlieallen16" target="_blank" class="social-btn">SUBSCRIBE @charlieallen16</a>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.module.min.js';
+
+        let scene, camera, renderer, car, player;
+        let engineSound = new Audio('https://www.myinstants.com/media/sounds/lamborghini-huracan-sound.mp3');
+        engineSound.loop = false; // DISABLED LOOPING PER YOUR REQUEST
+
+        let isDriving = false, gameStarted = false, isRevving = false;
+        let speed = 0, yaw = 0, pitch = 0, camDist = 12;
+        let moveState = { f: false, b: false, l: false, r: false };
+
+        document.getElementById('startBtn').addEventListener('click', () => {
+            document.getElementById('title-screen').style.display = 'none';
+            document.body.requestPointerLock();
+            gameStarted = true;
+        });
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x87ceeb);
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            const sun = new THREE.DirectionalLight(0xffffff, 2);
+            sun.position.set(100, 500, 100);
+            scene.add(sun, new THREE.AmbientLight(0xffffff, 0.5));
+
+            // Road & Sidewalk
+            const road = new THREE.Mesh(new THREE.PlaneGeometry(50, 20000), new THREE.MeshStandardMaterial({color: 0x1a1a1a}));
+            road.rotation.x = -Math.PI / 2;
+            scene.add(road);
+
+            const sidewalk = new THREE.Mesh(new THREE.PlaneGeometry(15, 20000), new THREE.MeshStandardMaterial({color: 0x777777}));
+            sidewalk.rotation.x = -Math.PI / 2;
+            sidewalk.position.set(32, 0.1, 0); 
+            scene.add(sidewalk);
+
+            // R6 PLAYER
+            player = new THREE.Group();
+            const charMat = new THREE.MeshStandardMaterial({color: 0x00aaff});
+            const skinMat = new THREE.MeshStandardMaterial({color: 0xffdbac});
+            const torso = new THREE.Mesh(new THREE.BoxGeometry(1, 1.2, 0.5), charMat);
+            const head = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.65, 0.65), skinMat);
+            head.position.y = 0.95;
+            player.add(torso, head);
+            player.position.set(32, 1.5, 10);
+            scene.add(player);
+
+            // HURACÁN
+            car = new THREE.Group();
+            car.add(new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.7, 4.8), new THREE.MeshStandardMaterial({color: 0xee0000})));
+            car.position.set(0, 0.5, 0); 
+            scene.add(car);
+
+            animate();
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if(e.code === 'KeyW') {
+                moveState.f = true;
+                // Only play sound if driving and we aren't already revving
+                if(isDriving && !isRevving) {
+                    engineSound.currentTime = 0;
+                    engineSound.play();
+                    isRevving = true;
+                }
+            }
+            if(e.code === 'KeyS') moveState.b = true;
+            if(e.code === 'KeyA') moveState.l = true;
+            if(e.code === 'KeyD') moveState.r = true;
+            if(e.code === 'KeyF' && gameStarted) toggleVehicle();
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if(e.code === 'KeyW') {
+                moveState.f = false;
+                isRevving = false; // Reset so next press triggers sound
+            }
+            if(e.code === 'KeyS') moveState.b = false;
+            if(e.code === 'KeyA') moveState.l = false;
+            if(e.code === 'KeyD') moveState.r = false;
+        });
+
+        // Detect when audio naturally ends
+        engineSound.onended = () => {
+            isRevving = false; 
+        };
+
+        document.addEventListener('mousemove', (e) => {
+            if (document.pointerLockElement) {
+                yaw -= e.movementX * 0.003;
+                pitch = Math.max(-0.6, Math.min(0.4, pitch - e.movementY * 0.002));
+            }
+        });
+
+        function toggleVehicle() {
+            const dist = player.position.distanceTo(car.position);
+            if (!isDriving && dist < 6) {
+                isDriving = true; player.visible = false;
+                document.getElementById('speedo').style.display = 'block';
+            } else if (isDriving) {
+                isDriving = false; player.visible = true;
+                player.position.copy(car.position).add(new THREE.Vector3(5, 1.5, 0));
+                document.getElementById('speedo').style.display = 'none';
+                speed = 0; engineSound.pause(); isRevving = false;
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (!gameStarted) return;
+
+            if (isDriving) {
+                if (moveState.f) speed += 0.06;
+                else if (moveState.b) speed -= 0.05;
+                else speed *= 0.98;
+
+                const topSpeed = 2.5; 
+                speed = Math.min(Math.max(speed, -0.6), topSpeed);
+
+                // Sound pitch caps at max speed
+                if (isRevving) {
+                    engineSound.playbackRate = 1 + (Math.abs(speed) / topSpeed) * 1.25;
+                }
+
+                car.rotation.y += (moveState.l ? 1 : moveState.r ? -1 : 0) * (0.04 / (1 + speed)) * (Math.abs(speed) + 0.3);
+                car.translateZ(-speed);
+                document.getElementById('speedo').innerText = Math.floor(Math.abs(speed) * 142) + " KM/H";
+                
+                const camX = car.position.x + camDist * Math.sin(yaw + car.rotation.y) * Math.cos(pitch);
+                const camY = car.position.y + 3.5 + camDist * Math.sin(pitch);
+                const camZ = car.position.z + camDist * Math.cos(yaw + car.rotation.y) * Math.cos(pitch);
+                camera.position.lerp(new THREE.Vector3(camX, camY, camZ), 0.1);
+                camera.lookAt(car.position);
+            } else {
+                const walkDir = new THREE.Vector3();
+                if(moveState.f) walkDir.z -= 0.15; if(moveState.b) walkDir.z += 0.15;
+                if(moveState.l) walkDir.x -= 0.15; if(moveState.r) walkDir.x += 0.15;
+                walkDir.applyQuaternion(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), yaw));
+                player.position.add(walkDir);
+                player.rotation.y = yaw + Math.PI;
+
+                const camX = player.position.x + camDist * Math.sin(yaw) * Math.cos(pitch);
+                const camY = player.position.y + 2 + camDist * Math.sin(pitch);
+                const camZ = player.position.z + camDist * Math.cos(yaw) * Math.cos(pitch);
+                camera.position.lerp(new THREE.Vector3(camX, camY, camZ), 0.2);
+                camera.lookAt(player.position.x, player.position.y + 1, player.position.z);
+            }
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
+</body>
+</html>
