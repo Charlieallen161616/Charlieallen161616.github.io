@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Interactive | Ultimate Dashboard</title>
+
+  <!-- BROWSER TAB ICON (FAVICON) USING YOUR EXACT LOGO LINK -->
+  <link rel="icon" type="image/webp" href="https://quillbot.com">
+
+  <!-- Font Awesome Style CDN Link for UI Icons -->
+  <link rel="stylesheet" href="https://cloudflare.com">
+
+  <style>
+    /* Reset & Theme Setup */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+
+    :root {
+      --primary: #00e676;       
+      --accent-purple: #6366f1; 
+      --dark-bg: #0f172a;       
+      --card-bg: #1e293b;       
+      --text-main: #f8fafc;     
+      --text-muted: #94a3b8;    
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    /* Fixed Layout Header Navigation */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background-color: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid #334155;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span { color: var(--primary); }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-tab.active, .nav-tab:hover {
+      color: var(--text-main);
+      background-color: var(--card-bg);
+    }
+
+    .nav-tab.active i {
+      color: var(--primary);
+    }
+
+    /* Dashboard View Screen Toggling */
+    .view-panel {
+      display: none;
+      padding: 2rem 5%;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .view-panel.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- HOME SCREEN INTERACTIVE HERO --- */
+    .hero-banner {
+      background-color: var(--accent-purple);
+      border-radius: 24px;
+      padding: 4rem;
+      margin: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+    }
+
+    .hero-content { max-width: 50%; }
+
+    .hero-content h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero-content p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .hero-btn {
+      display: inline-block;
+      background-color: var(--text-main);
+      color: var(--accent-purple);
+      text-decoration: none;
+      padding: 1rem 2.5rem;
+      font-weight: 700;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .hero-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Decorative Mascot Elements */
+    .hero-graphic {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .mascot {
+      width: 100px;
+      height: 120px;
+      background-color: #a4c639; 
+      border-radius: 20px 20px 10px 10px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.5rem;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      animation: float 3s ease-in-out infinite alternate;
+    }
+
+    .mascot:nth-child(2) { animation-delay: 0.5s; }
+    .mascot:nth-child(3) { animation-delay: 1s; }
+
+    @keyframes float {
+      from { transform: translateY(0px) rotate(0deg); }
+      to { transform: translateY(-15px) rotate(5deg); }
+    }
+
+    /* --- ONLINE GEOMETRY DASH SIDE-SCROLLER --- */
+    .gd-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: #000;
+      border: 4px solid var(--primary);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 230, 118, 0.2);
+    }
+
+    .gd-header {
+      background-color: #111;
+      padding: 1rem;
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #222;
+    }
+
+    .gd-canvas-container {
+      position: relative;
+      width: 100%;
+      height: 360px;
+      background: linear-gradient(to bottom, #1a0033, #000022);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gd-cube {
+      width: 44px;
+      height: 44px;
+      position: absolute;
+      bottom: 40px;
+      left: 100px;
+      border-radius: 6px;
+      background-image: url('https://quillbot.com');
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 0 15px rgba(0, 122, 255, 0.8);
+      transform-origin: center center;
+    }
+
+    .gd-floor {
+      width: 100%;
+      height: 40px;
+      background-color: var(--primary);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      box-shadow: 0 -4px 15px rgba(0, 230, 118, 0.5);
+    }
+
+    .gd-obstacle {
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 40px solid #ff0055;
+      position: absolute;
+      bottom: 40px;
+      left: 950px;
+    }
+
+    /* Game controls container bar */
+    .gd-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      z-index: 10px;
+    }
+
+    .gd-score {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    /* Stop Button Styling */
+    .gd-stop-btn {
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gd-stop-btn:hover {
+      background-color: #dc2626;
+      transform: scale(1.05);
+    }
+
+    .gd-stop-btn.paused {
+      background-color: var(--primary);
+      color: #000;
+    }
+
+    /* Custom Snappy Gravity Jump Animation */
+    .gd-jump-anim { 
+      animation: snappyJump 0.48s cubic-bezier(0.25, 1, 0.2, 1); 
+    }
+    
+    @keyframes snappyJump {
+      0% { bottom: 40px; transform: rotate(0deg); }
+      40% { bottom: 165px; transform: rotate(75deg); } 
+      100% { bottom: 40px; transform: rotate(180deg); } 
+    }
+
+    /* --- HUB APP GRID --- */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .app-card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.25rem;
+      text-decoration: none;
+      color: var(--text-main);
+      border: 1px solid transparent;
+      transition: var(--transition);
+    }
+
+    .app-card:hover {
+      transform: translateY(-5px);
+      border-color: #475569;
+    }
+
+    .app-icon {
+      width: 100%;
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, #334155, #475569);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    /* --- IN-APP WEB BROWSER --- */
+    .browser-box {
+      border: 1px solid #334155;
+      border-radius: 16px;
+      background-color: #1e293b;
+      overflow: hidden;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    }
+
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      background-color: #0f172a;
+    }
+
+    .browser-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #ef4444;
+    }
+    .browser-dot:nth-child(2) { background-color: #eab308; }
+    .browser-dot:nth-child(3) { background-color: #22c55e; }
+
+    .browser-input {
+      flex-grow: 1;
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .browser-frame {
+      width: 100%;
+      height: 65vh;
+      border: none;
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Global Navigation Bar -->
+  <nav class="navbar">
+    <a href="#" class="logo-container" onclick="switchView('home-view')">
+      <img src="https://quillbot.com" alt="Apex Logo" class="logo-img">
+      <div class="logo">APEX<span>INTERACTIVE</span></div>
+    </a>
+    <div class="nav-links">
+      <button class="nav-tab active" id="btn-home" onclick="switchView('home-view')"><i class="fa-solid fa-house"></i>Home</button>
+      <button class="nav-tab" id="btn-play" onclick="switchView('play-view')"><i class="fa-solid fa-gamepad"></i>Online Play</button>
+      <button class="nav-tab" id="btn-hub" onclick="switchView('hub-view')"><i class="fa-solid fa-layer-group"></i>Game Hub</button>
+      <button class="nav-tab" id="btn-browse" onclick="switchView('browse-view')"><i class="fa-solid fa-globe"></i>Web Browser</button>
+    </div>
+  </nav>
+
+  <!-- PANEL 1: HOME MENU -->
+  <main id="home-view" class="view-panel active">
+    <div class="hero-banner">
+      <div class="hero-content">
+        <h1>Run APEX Hub from your browser</h1>
+        <p>Access games, tools, and custom applications completely integrated into your local network profile. No complex setup or installation required!</p>
+        <div class="hero-btn" onclick="switchView('hub-view')">Start</div>
+      </div>
+      <div class="hero-graphic">
+        <div class="mascot">👾</div>
+        <div class="mascot">🚀</div>
+        <div class="mascot">🎯</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- PANEL 2: GEOMETRY DASH WEB EDITION WITH STOP CONTROLS -->
+  <main id="play-view" class="view-panel">
+    <div style="text-align:center; margin-bottom:2rem;">
+      <h2>Apex Online Arena</h2>
+      <p style="color:var(--text-muted)">Click inside the screen or press spacebar to jump.</p>
+    </div>
+
+    <div class="gd-wrapper">
+      <div class="gd-header">GEOMETRY DASH REMAKE (APEX INTERACTIVE EDITION)</div>
+      <div class="gd-canvas-container" id="gameZone" onclick="triggerJump(event)">
+        <div class="gd-controls">
+          <div class="gd-score" id="scoreVal">Score: 0</div>
+          <!-- Stop / Resume Game Button -->
+          <button class="gd-stop-btn" id="stopBtn" onclick="toggleGameStop(event)">
+            <i class="fa-solid fa-circle-stop"></i>Stop
+          </button>
+        </div>
+        <div class="gd-cube" id="playerCube"></div>
+        <div class="gd-obstacle" id="spikeBarrier"></div>
+        <div class="gd-floor"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- PANEL 3: APP AND GAME HUB STORE -->
+  <main id="hub-view" class="view-panel">
+    <h2>Apex Hub Applications</h2>
+    <div class="app-grid">
+      <div class="app-card">
+        <div class="app-icon" style="background: linear-gradient(135deg, #ef4444, #f97316)">💥</div>
+        <h3>Apex Action Force</h3>
+        <p style="color: var(--text-muted); font-size:0.9rem; margin-top:0.5rem;">Multiplayer shooter web build.</p>
+      </div>
+      <div class="app-card">
+        <div class="app-icon" style="background: linear-gradient(135deg, #06b6d4, #3b82f6)">🛠️</div>
+        <h3>Apex Tool Station</h3>
+        <p style="color: var(--text-muted); font-size:0.9rem; margin-top:0.5rem;">Development configurations console.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- PANEL 4: BUILT-IN IFRAME WEB BROWSER -->
+  <main id="browse-view" class="view-panel">
+    <div class="browser-box">
+      <div class="browser-bar">
+        <div class="browser-dot"></div>
+        <div class="browser-dot"></div>
+        <div class="browser-dot"></div>
+        <input type="text" class="browser-input" id="browserUrl" value="https://example.com" onkeydown="if(event.key==='Enter') loadWebpage()">
+      </div>
+      <iframe src="https://example.com" class="browser-frame" id="displayFrame"></iframe>
+    </div>
+  </main>
+
+  <!-- SYSTEM UTILITIES LOGIC SCRIPT -->
+  <script>
+    // Panel Router Module
+    function switchView(panelId) {
+      document.querySelectorAll('.view-panel').forEach(view => view.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+      
+      document.getElementById(panelId).classList.add('active');
+      
+      if(panelId === 'home-view') document.getElementById('btn-home').classList.add('active');
+      if(panelId === 'play-view') {
+        document.getElementById('btn-play').classList.add('active');
+        launchGameSystem();
+      } else {
+        clearInterval(gameLoopInterval); // Stop game loops if we leave the page
+      }
+      if(panelId === 'hub-view') document.getElementById('btn-hub').classList.add('active');
+      if(panelId === 'browse-view') document.getElementById('btn-browse').classList.add('active');
+    }
+
+    // Integrated Web Browser URL Engine 
+    function loadWebpage() {
+      let address = document.getElementById('browserUrl').value;
+      if (!address.startsWith('http://') && !address.startsWith('https://')) {
+        address = 'https://' + address;
+      }
+      document.getElementById('displayFrame').src = address;
+    }
+
+    // Geometry Dash Engine Variables
+    let score = 0;
+    let isJumping = false;
+    let isGamePaused = false;
+    let gameLoopInterval;
+    let obstaclePosition = 950;
+
+    window.addEventListener('keydown', function(e) {
+      if(e.code === "Space" && document.getElementById('play-view').classList.contains('active')) {
+        e.preventDefault(); 
+        triggerJump();
+      }
+    });
+
+    function triggerJump(event) {
+      // Don't jump if we are trying to click the stop button
+      if (event && event.target.closest('#stopBtn')) return;
+      if (isGamePaused) return;
+
+      const cube = document.getElementById('playerCube');
+      if (!isJumping) {
+        isJumping = true;
+        cube.classList.add('gd-jump-anim');
+        setTimeout(() => {
+          cube.classList.remove('gd-jump-anim');
+          isJumping = false;
+        }, 480); 
+      }
+    }
+
+    // Stop / Resume Toggle Action Engine
+    function toggleGameStop(event) {
+      if (event) event.stopPropagation(); // Stops screen click from triggering a jump
+      
+      const stopBtn = document.getElementById('stopBtn');
+      
+      if (!isGamePaused) {
+        // Stop the game
+        isGamePaused = true;
+        clearInterval(gameLoopInterval);
+        stopBtn.innerHTML = '<i class="fa-solid fa-play"></i> Resume';
+        stopBtn.classList.add('paused');
+      } else {
+        // Resume the game
+        isGamePaused = false;
+        stopBtn.innerHTML = '<i class="fa-solid fa-circle-stop"></i> Stop';
+        stopBtn.classList.remove('paused');
+        runGameLoop();
+      }
+    }
+
+    function launchGameSystem() {
+      clearInterval(gameLoopInterval);
+      score = 0;
+      obstaclePosition = 950;
+      isGamePaused = false;
+      
+      const stopBtn = document.getElementById('stopBtn');
+      stopBtn.innerHTML = '<i class="fa-solid fa-circle-stop"></i> Stop';
+      stopBtn.classList.remove('paused');
+      
+      document.getElementById('scoreVal').innerText = "Score: " + score;
+      runGameLoop();
+    }
+
+    function runGameLoop() {
+      const obstacle = document.getElementById('spikeBarrier');
+      
+      gameLoopInterval = setInterval(() => {
+        obstaclePosition -= 9; 
+        if (obstaclePosition < -40) {
+          obstaclePosition = 950;
+          score += 10;
+          document.getElementById('scoreVal').innerText = "Score: " + score;
+        }
+        obstacle.style.left = obstaclePosition + "px";
+
+        if (obstaclePosition > 100 && obstaclePosition < 144 && !isJumping) {
+          clearInterval(gameLoopInterval);
+          alert("Game Over! Final Score: " + score);
+          launchGameSystem();
+        }
+      }, 20);
+    }
+  </script>
+</body>
+</html>
