@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apex Interactive | Unified Hub Platform</title>
+  <title>Apex Interactive | Multitasking WebOS Terminal</title>
 
-  <!-- BROWSER TAB FAVICON: Inline SVG vector solution ensures instant cross-origin rendering -->
+  <!-- BROWSER TAB FAVICON: Inline SVG Vector Logo -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 100 100'%3E%3Cpolygon points='50,10 90,90 70,90 50,45 30,90 10,90' fill='%23007aff'/%3E%3Cpolygon points='50,30 75,80 25,80' fill='%2300e676'/%3E%3C/svg%3E">
 
+  <!-- Font Awesome Icons (Preserved for header dashboard elements) -->
+  <link rel="stylesheet" href="https://cloudflare.com">
+
   <style>
-    /* Reset & CSS Custom Properties Setup */
+    /* Reset & CSS Custom Theme System */
     * {
       margin: 0;
       padding: 0;
@@ -58,20 +61,9 @@
       text-decoration: none;
     }
 
-    .logo-vector {
-      width: 32px;
-      height: 32px;
-    }
-
-    .logo {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--text-main);
-      letter-spacing: -0.5px;
-    }
-
+    .logo-vector { width: 32px; height: 32px; }
+    .logo { font-size: 1.4rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
     .logo span { color: var(--primary); }
-
     .nav-links { display: flex; gap: 1rem; }
 
     .nav-tab {
@@ -93,14 +85,14 @@
       color: var(--text-main);
       background-color: var(--card-bg);
     }
+    .nav-tab.active i { color: var(--primary); }
 
-    /* Display Layout Panels */
+    /* Layout Panel Swapping Views */
     .view-panel {
       display: none;
       padding: 2rem 5%;
       animation: pageFadeIn 0.3s ease;
     }
-
     .view-panel.active { display: block; }
 
     @keyframes pageFadeIn {
@@ -108,7 +100,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* --- PANEL 1: HOME PLATFORM INTRO --- */
+    /* --- HOME PANEL --- */
     .hero-banner {
       background: linear-gradient(135deg, var(--accent-purple), #4f46e5);
       border-radius: 24px;
@@ -119,7 +111,6 @@
       align-items: center;
       box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
     }
-
     .hero-content { max-width: 55%; }
     .hero-content h1 { font-size: 3.4rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; letter-spacing: -1px; }
     .hero-content p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; line-height: 1.5; }
@@ -133,175 +124,92 @@
       border-radius: 30px;
       transition: var(--transition);
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
-    .hero-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    .hero-btn:hover { transform: translateY(-2px); }
 
-    /* --- PANEL 2: GAME HUB CONSOLE DESIGN --- */
-    .hub-category-section {
-      margin-bottom: 3.5rem;
-    }
-
-    .category-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-bottom: 2px solid #1e293b;
-      padding-bottom: 0.5rem;
-    }
-
-    .hub-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-
+    /* --- GAME HUB CATALOG DESIGNS --- */
+    .hub-category-section { margin-bottom: 3.5rem; }
+    .category-title { font-size: 1.6rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #1e293b; padding-bottom: 0.5rem; }
+    .category-title i { color: var(--primary); }
+    .hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+    
     .hub-card {
       background-color: var(--card-bg);
       border-radius: 16px;
       padding: 1.5rem;
-      border: 1px solid transparent;
       transition: var(--transition);
       display: flex;
       flex-direction: column;
       cursor: pointer;
+      border: 1px solid transparent;
     }
+    .hub-card:hover { transform: translateY(-5px); border-color: #475569; }
+    .hub-card-icon { width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 1.25rem; color: white; }
+    .hub-launch-btn { margin-top: auto; background-color: rgba(255,255,255,0.05); border: 1px solid #334155; color: var(--text-main); text-align: center; padding: 0.6rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+    .hub-card:hover .hub-launch-btn { background-color: var(--primary); color: #000; border-color: var(--primary); }
 
-    .hub-card:hover {
-      transform: translateY(-5px);
-      border-color: #475569;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-    }
-
-    .hub-card-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      margin-bottom: 1.25rem;
-      color: white;
-    }
-
-    .hub-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .hub-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1.25rem; }
-    
-    .hub-launch-btn {
-      margin-top: auto;
-      background-color: rgba(255,255,255,0.05);
-      border: 1px solid #334155;
-      color: var(--text-main);
-      text-align: center;
-      padding: 0.6rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: var(--transition);
-    }
-
-    .hub-card:hover .hub-launch-btn {
-      background-color: var(--primary);
-      color: #000;
-      border-color: var(--primary);
-    }
-
-    /* --- WINDOW OPERATING SYSTEM WORKSPACE LAYER OVERLAYS --- */
-    .webos-fullscreen-container {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+    /* --- MULTITASKING WEBOS DESKTOP SHELL (INSIDE WEBOS PANEL VIEW) --- */
+    #webos-view {
+      padding: 0;
       background: radial-gradient(circle at bottom left, #1e1b4b, #020617);
-      z-index: 3000;
-      animation: systemBoot 0.4s cubic-bezier(0.1, 1, 0.1, 1);
-    }
-
-    @keyframes systemBoot {
-      from { opacity: 0; transform: scale(1.03); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .os-top-taskbar {
-      height: 40px;
-      background-color: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 1.5rem;
-    }
-
-    .os-exit-shell-btn {
-      background: rgba(239, 68, 68, 0.2);
-      border: 1px solid #ef4444;
-      color: #fca5a5;
-      padding: 3px 12px;
-      font-size: 0.8rem;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .os-exit-shell-btn:hover { background: #ef4444; color: white; }
-
-    .os-desktop-area {
-      height: calc(100vh - 95px);
       position: relative;
       overflow: hidden;
-      width: 100%;
+      height: calc(100vh - 65px);
+      width: 100vw;
     }
 
-    .os-desktop-area:-webkit-full-screen { width: 100vw; height: 100vh; }
+    .os-desktop-workspace {
+      width: 100%;
+      height: calc(100% - 70px);
+      position: relative;
+      overflow: hidden;
+    }
 
+    /* Taskbar Dock styling using Emoji Icons exclusively */
     .os-dock-panel {
-      height: 55px;
-      background-color: rgba(30, 41, 59, 0.5);
+      height: 70px;
+      background-color: rgba(30, 41, 59, 0.4);
       backdrop-filter: blur(20px);
       border-top: 1px solid rgba(255,255,255,0.08);
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 1rem;
+      gap: 1.25rem;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 2500;
     }
 
     .dock-launcher-item {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       background-color: var(--card-bg);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.6rem;
       cursor: pointer;
       transition: var(--transition);
+      border: 1px solid rgba(255,255,255,0.05);
     }
-    .dock-launcher-item:hover { transform: translateY(-5px); background-color: var(--accent-blue); }
+    .dock-launcher-item:hover { transform: translateY(-8px) scale(1.1); background-color: var(--accent-blue); }
 
-    /* Window Frames with Resizing Support */
+    /* --- MULTITASKING DRAGGABLE & RESIZABLE WINDOW SYSTEM --- */
     .os-draggable-window {
       position: absolute;
-      width: 540px;
+      width: 550px;
       height: 420px;
-      min-width: 300px;
-      min-height: 250px;
       background-color: #1e293b;
       border-radius: 12px;
       border: 1px solid #475569;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
       overflow: hidden;
       z-index: 10;
-      resize: both; /* Native window resize handle */
     }
 
     .os-window-titlebar {
@@ -316,170 +224,82 @@
       border-bottom: 1px solid #334155;
     }
 
+    .os-window-title { display: flex; align-items: center; gap: 8px; }
+
     .window-control-dots { display: flex; gap: 8px; align-items: center; }
-    .win-dot { width: 14px; height: 14px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 8px; color: transparent; font-weight: bold; }
-    .win-dot:hover { color: rgba(0,0,0,0.6); }
-    .dot-kill { background-color: #ef4444; }
-    .dot-expand { background-color: #eab308; }
-    .dot-fullscreen { background-color: #22c55e; }
+    .win-btn { border: none; border-radius: 4px; color: white; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; }
+    .btn-close { width: 16px; height: 16px; background-color: #ef4444; }
+    .btn-size { padding: 2px 6px; background-color: #eab308; color: #000; font-size: 0.65rem; font-weight: 800; }
+    .btn-fs { padding: 2px 6px; background-color: var(--accent-blue); }
 
-    .os-window-body { flex-grow: 1; background-color: #000; position: relative; display: flex; flex-direction: column; overflow: hidden; }
-    .os-window-iframe { width: 100%; height: 100%; border: none; background: white; }
+    /* Custom App Body Panels */
+    .os-window-body { flex-grow: 1; background-color: #0d1117; position: relative; display: flex; flex-direction: column; overflow: hidden; }
+    
+    /* Native Resize Corner Handle grip */
+    .os-resize-handle {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 16px;
+      height: 16px;
+      cursor: se-resize;
+      background: linear-gradient(135deg, transparent 50%, var(--text-muted) 50%);
+      z-index: 999;
+    }
 
-    /* Window states */
-    .os-draggable-window.maximized {
+    /* Window state class bindings */
+    .os-draggable-window.maximized-state {
       width: 100% !important;
       height: 100% !important;
       top: 0 !important;
       left: 0 !important;
-      resize: none;
     }
 
-    .os-draggable-window.fullscreen-mode {
+    .os-draggable-window.fullscreen-state {
       width: 100vw !important;
       height: 100vh !important;
+      position: fixed !important;
       top: 0 !important;
       left: 0 !important;
-      position: fixed !important;
       z-index: 99999 !important;
-      border-radius: 0;
-      resize: none;
+      border-radius: 0 !important;
     }
 
-    /* --- HTTPS BROWSER MODULE STYLING --- */
-    .browser-address-container {
-      display: flex;
-      background-color: #0f172a;
-      padding: 6px 12px;
-      gap: 8px;
-      align-items: center;
-      border-bottom: 1px solid #334155;
-    }
-    .browser-https-tag {
-      font-size: 0.75rem;
-      background-color: #1e293b;
-      padding: 4px 8px;
-      border-radius: 4px;
-      color: var(--primary);
-      font-weight: bold;
-    }
-    .browser-url-input {
-      flex-grow: 1;
-      background-color: #1e293b;
-      border: 1px solid #475569;
-      color: white;
-      padding: 3px 10px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-    }
-    .browser-go-btn {
-      background-color: var(--accent-blue);
-      color: white;
-      border: none;
-      padding: 3px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 0.8rem;
-    }
+    /* --- BROWSER MODULE WITH HTTPS ADDRESS INTERACTIVE BAR --- */
+    .browser-engine-wrapper { display: flex; flex-direction: column; width: 100%; height: 100%; background: #fff; }
+    .browser-address-bar { display: flex; align-items: center; gap: 8px; background-color: #0f172a; padding: 6px 12px; border-bottom: 1px solid #334155; }
+    .https-tag { color: var(--primary); font-size: 0.75rem; font-weight: 800; background: rgba(0, 230, 118, 0.1); padding: 2px 6px; border-radius: 4px; display: flex; align-items: center; gap: 4px; }
+    .browser-address-input { flex-grow: 1; background-color: #1e293b; border: 1px solid #475569; color: white; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; }
+    .browser-frame { width: 100%; flex-grow: 1; border: none; background-color: #fff; }
 
-    /* --- HTML LIVE EDITOR COMPONENT --- */
-    .html-editor-workspace {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 100%;
-      background-color: #1e293b;
-    }
-    .html-editor-controlbar {
-      background-color: #0f172a;
-      padding: 6px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .html-run-btn {
-      background-color: var(--primary);
-      color: #000;
-      border: none;
-      padding: 4px 15px;
-      font-weight: bold;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .html-code-textarea {
-      width: 100%;
-      height: 50%;
-      background-color: #020617;
-      color: #38bdf8;
-      font-family: monospace;
-      padding: 10px;
-      border: none;
-      resize: none;
-      outline: none;
-      font-size: 0.9rem;
-    }
-    .html-live-output {
-      width: 100%;
-      height: 50%;
-      background-color: white;
-      border: none;
-    }
-
-    /* --- BYTEBEAT MUSIC MODULATOR EDITOR --- */
-    .bytebeat-workspace {
-      width: 100%;
-      height: 100%;
-      background-color: #0b0f19;
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .bytebeat-input {
-      width: 100%;
-      background-color: #020617;
-      border: 1px solid #334155;
-      color: #a78bfa;
-      padding: 10px;
-      font-family: monospace;
-      border-radius: 6px;
-      font-size: 1.1rem;
-      outline: none;
-    }
-    .bytebeat-controls { display: flex; gap: 10px; }
-    .bb-btn { padding: 6px 16px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
-    .bb-play { background-color: var(--primary); color: #000; }
-    .bb-stop { background-color: #ef4444; color: white; }
-    .bytebeat-visualizer-canvas {
-      flex-grow: 1;
-      background-color: #020617;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
-    }
-
-    /* --- ARCADE GAME ENGINE APPS --- */
+    /* --- GEOMETRY DASH MINI SYSTEM BUILD --- */
     .arcade-game-viewport { width: 100%; height: 100%; background: linear-gradient(to bottom, #111827, #020617); position: relative; overflow: hidden; }
-    .arcade-player-avatar {
-      width: 36px;
-      height: 36px;
-      position: absolute;
-      bottom: 35px;
-      left: 60px;
-      border-radius: 6px;
-      background: linear-gradient(135deg, var(--accent-blue), var(--primary));
-      box-shadow: 0 0 14px var(--primary);
-    }
+    .arcade-player-avatar { width: 36px; height: 36px; position: absolute; bottom: 35px; left: 60px; border-radius: 6px; background: linear-gradient(135deg, var(--accent-blue), var(--primary)); box-shadow: 0 0 14px var(--primary); }
     .arcade-level-floor { width: 100%; height: 35px; background-color: var(--primary); position: absolute; bottom: 0; left: 0; box-shadow: 0 -4px 10px rgba(0,230,118,0.3); }
     .arcade-level-spike { width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 32px solid #ff0055; position: absolute; bottom: 35px; left: 520px; }
-    .arcade-ui-score { position: absolute; top: 12px; left: 12px; font-weight: 800; font-size: 1.1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .arcade-ui-score { position: absolute; top: 12px; left: 12px; font-weight: 800; font-size: 1.1rem; }
     .arcade-ui-stop { position: absolute; top: 10px; right: 10px; background: #ef4444; border: none; padding: 4px 12px; color: white; font-weight: 700; border-radius: 4px; cursor: pointer; font-size: 0.75rem; z-index: 5; }
-
-    .jump-physics-active { animation: arcadeJumpProfile 0.46s cubic-bezier(0.25, 1, 0.2, 1); }
+    
+    .jump-physics-active { animation: arcadeJumpProfile 0.45s cubic-bezier(0.25, 1, 0.2, 1); }
     @keyframes arcadeJumpProfile {
       0% { bottom: 35px; transform: rotate(0deg); }
       40% { bottom: 130px; transform: rotate(80deg); }
       100% { bottom: 35px; transform: rotate(180deg); }
     }
+
+    /* --- HTML EDITOR WORKSPACE DESIGN WITH OUTPUT SPLIT --- */
+    .editor-container { display: flex; flex-direction: column; width: 100%; height: 100%; }
+    .editor-textarea { width: 100%; height: 50%; background-color: #1e1e1e; color: #d4d4d4; font-family: 'Courier New', Courier, monospace; padding: 10px; border: none; border-bottom: 2px solid #334155; resize: none; outline: none; font-size: 0.85rem; user-select: text; }
+    .editor-output-frame { width: 100%; height: 50%; background-color: #ffffff; border: none; }
+
+    /* --- BYTEBEAT MUSIC COMPOSER ENGINE EDITOR --- */
+    .bytebeat-wrapper { display: flex; flex-direction: column; padding: 1rem; gap: 12px; width: 100%; height: 100%; overflow-y: auto; color: white; }
+    .bytebeat-input { background: #1e293b; border: 1px solid #475569; color: #00e676; padding: 8px 12px; border-radius: 6px; font-family: monospace; font-size: 0.95rem; outline: none; width: 100%; user-select: text; }
+    .bytebeat-controls-row { display: flex; gap: 10px; align-items: center; }
+    .bytebeat-btn { background-color: var(--accent-blue); border: none; color: white; padding: 6px 14px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+    .bytebeat-btn.active-play { background-color: #ef4444; }
+    .bytebeat-status { font-size: 0.8rem; color: var(--text-muted); }
+    .bytebeat-presets select { background-color: #1e293b; color: white; border: 1px solid #475569; padding: 4px 8px; border-radius: 4px; }
   </style>
 </head>
 <body>
@@ -494,177 +314,227 @@
       <div class="logo">APEX<span>INTERACTIVE</span></div>
     </a>
     <div class="nav-links">
-      <button class="nav-tab active" id="btn-home" onclick="switchView('home-view')">🏠 Home</button>
-      <button class="nav-tab" id="btn-hub" onclick="switchView('hub-view')">🎮 Game Hub</button>
+      <button class="nav-tab active" id="btn-home" onclick="switchView('home-view')"><i class="fa-solid fa-house"></i>Home</button>
+      <button class="nav-tab" id="btn-hub" onclick="switchView('hub-view')"><i class="fa-solid fa-layer-group"></i>Game Hub</button>
     </div>
   </nav>
 
-  <!-- LAYER 1: LANDING OVERVIEW -->
+  <!-- PANEL 1: PLATFORM INTRODUCTION DISPLAY -->
   <main id="home-view" class="view-panel active">
     <div class="hero-banner">
       <div class="hero-content">
-        <h1>Welcome to Apex Hub</h1>
-        <p>Explore high-performance browser tools, development systems, algorithmic sequencers, and virtual workspaces built inside an immersive client ecosystem.</p>
-        <div class="hero-btn" onclick="switchView('hub-view')">Enter Game Hub</div>
+        <h1>Welcome to Apex Interactive</h1>
+        <p>Explore high-performance workspace layers, multi-app sandboxes, and creative editors running completely inside unified browser environments.</p>
+        <div class="hero-btn" onclick="switchView('hub-view')">Open System Game Hub</div>
       </div>
     </div>
   </main>
 
-  <!-- LAYER 2: UNIFIED SOFTWARE GAME HUB -->
+  <!-- PANEL 2: GAME HUB CORE HUB -->
   <main id="hub-view" class="view-panel">
     
-    <!-- SUBSECTION A: OS ENVIRONMENTS -->
-    <section class="hub-category-section">
-      <div class="category-title">
-        <h2>🖥️ Core Systems & Environments</h2>
-      </div>
+    <!-- SECTION A: PLATFORMS -->
+    <div class="hub-category-section">
+      <div class="category-title"><i class="fa-solid fa-desktop"></i><h2>Operating Ecosystem Layers</h2></div>
       <div class="hub-grid">
-        <div class="hub-card" onclick="bootWebOSShell()">
-          <div class="hub-card-icon" style="background: linear-gradient(135deg, #6366f1, #a855f7);">🗔</div>
-          <h3>Multitasking WebOS</h3>
-          <p>Launch a secure virtual desktop interface that runs sandbox code builders, browser windows, audio synthesis grids, and gaming modules concurrently.</p>
-          <div class="hub-launch-btn">Boot OS Workspace</div>
+        <div class="hub-card" onclick="switchView('webos-view')">
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #6366f1, #a855f7);">💻</div>
+          <h3>Multitasking WebOS Workspace</h3>
+          <p>Launch an isolated, window-driven desktop workspace supporting drag, resize, minimize, maximize, and full-screen modules running concurrently.</p>
+          <div class="hub-launch-btn">Boot OS Shell</div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- SUBSECTION B: NATIVE DEVELOPER LAB & ENGINES -->
-    <section class="hub-category-section">
-      <div class="category-title">
-        <h2>🛠️ Integrated Creator Utilities</h2>
-      </div>
+    <!-- SECTION B: APP INVENTORY -->
+    <div class="hub-category-section">
+      <div class="category-title"><i class="fa-solid fa-folder-open"></i><h2>All Application Components</h2></div>
       <div class="hub-grid">
-        <div class="hub-card" onclick="bootWebOSShell(); spawnSystemProcess('editor');">
-          <div class="hub-card-icon" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">📝</div>
-          <h3>HTML Live Code Builder</h3>
-          <p>Develop, arrange, and debug front-end code scripting blueprints inside a synchronized side-by-side execution display field.</p>
-          <div class="hub-launch-btn">Open Editor</div>
-        </div>
-        <div class="hub-card" onclick="bootWebOSShell(); spawnSystemProcess('bytebeat');">
-          <div class="hub-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">🎵</div>
-          <h3>Bytebeat Audio Modulator</h3>
-          <p>Construct complex, mathematical 8-bit noise landscapes and chip-tune tracks using standard logic array variables.</p>
-          <div class="hub-launch-btn">Open Bytebeat Synth</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SUBSECTION C: NATIVE BROWSER ARCADE TITLES -->
-    <section class="hub-category-section">
-      <div class="category-title">
-        <h2>🕹️ Apex Arcade Center</h2>
-      </div>
-      <div class="hub-grid">
-        <div class="hub-card" onclick="bootWebOSShell(); spawnSystemProcess('game');">
-          <div class="hub-card-icon" style="background: linear-gradient(135deg, #007aff, #00e676);">⚡</div>
+        <div class="hub-card" onclick="switchView('webos-view'); spawnProcess('game');">
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #007aff, #00e676);">🎮</div>
           <h3>Geometry Dash Remake</h3>
-          <p>Experience snappier physics gravity tuning and integrated level tracking elements calibrated with immediate keyboard response bindings.</p>
-          <div class="hub-launch-btn">Play Game</div>
+          <p>Snappy gravity physics loop with instant pause controls.</p>
+          <div class="hub-launch-btn">Launch App</div>
         </div>
-        <div class="hub-card" onclick="bootWebOSShell(); spawnSystemProcess('browser');">
+        <div class="hub-card" onclick="switchView('webos-view'); spawnProcess('browser');">
           <div class="hub-card-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">🌐</div>
-          <h3>In-Game Web Browser</h3>
-          <p>Access utility platforms, network nodes, and documentation guides inside an optimized address-seeking container window.</p>
-          <div class="hub-launch-btn">Open Browser</div>
+          <h3>Secure Web Browser</h3>
+          <p>Features an address input bar layout verified over secure parameters.</p>
+          <div class="hub-launch-btn">Launch App</div>
+        </div>
+        <div class="hub-card" onclick="switchView('webos-view'); spawnProcess('html');">
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">📝</div>
+          <h3>HTML Live Editor Workspace</h3>
+          <p>Write raw source layouts and watch real-time compiler code rendering inside an output window frame view.</p>
+          <div class="hub-launch-btn">Launch App</div>
+        </div>
+        <div class="hub-card" onclick="switchView('webos-view'); spawnProcess('bytebeat');">
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">🎵</div>
+          <h3>Bytebeat Music Composer</h3>
+          <p>Code structural algorithm music generators using raw single-line mathematical equations.</p>
+          <div class="hub-launch-btn">Launch App</div>
         </div>
       </div>
-    </section>
+    </div>
 
   </main>
 
-  <!-- --- MULTITASKING DESKTOP OPERATING SYSTEM OVERLAY --- -->
-  <div id="apex-webos-shell" class="webos-fullscreen-container">
-    <div class="os-top-taskbar">
-      <div style="font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
-        ⚙️ APEX WebOS Desktop v1.8
-      </div>
-      <button class="os-exit-shell-btn" onclick="shutdownWebOSShell()">❌ Exit System</button>
-    </div>
+  <!-- PANEL 3: MULTITASKING DESKTOP OPERATING SYSTEM HUB LAYOUT -->
+  <main id="webos-view" class="view-panel">
+    
+    <!-- Floating window canvas area -->
+    <div class="os-desktop-workspace" id="os-canvas-plane"></div>
 
-    <!-- Desktop workspace window area -->
-    <div class="os-desktop-area" id="os-workspace-canvas"></div>
-
-    <!-- Persistent app launcher dock tray -->
+    <!-- Taskbar Launch Deck Panel: EMOJI ICON ASSIGNMENTS EXCLUSIVELY -->
     <div class="os-dock-panel">
-      <div class="dock-launcher-item" title="Sandbox Browser" onclick="spawnSystemProcess('browser')">🌐</div>
-      <div class="dock-launcher-item" title="Geometry Dash Arena" onclick="spawnSystemProcess('game')">🕹️</div>
-      <div class="dock-launcher-item" title="HTML Code Lab" onclick="spawnSystemProcess('editor')">📝</div>
-      <div class="dock-launcher-item" title="Bytebeat Generator" onclick="spawnSystemProcess('bytebeat')">🎵</div>
+      <div class="dock-launcher-item" title="Launch Safe Web Browser" onclick="spawnProcess('browser')">🌐</div>
+      <div class="dock-launcher-item" title="Launch Geometry Dash Game" onclick="spawnProcess('game')">🎮</div>
+      <div class="dock-launcher-item" title="Launch Realtime HTML Editor" onclick="spawnProcess('html')">📝</div>
+      <div class="dock-launcher-item" title="Launch Bytebeat Mathematical Composer" onclick="spawnProcess('bytebeat')">🎵</div>
     </div>
-  </div>
 
-  <!-- PLATFORM ORCHESTRATION ARCHITECTURE RUNTIME ENGINE -->
+  </main>
+
+  <!-- WORKSPACE ORCHESTRATION ARCHITECTURE LOGIC SCRIPT ENGINE -->
   <script>
-    let activePID = 0;
-    let desktopTopFocusZ = 500;
-    let audioCtx = null;
+    let processCounterID = 0;
+    let baselineZIndexTracker = 1000;
 
-    // View Navigation Module
+    // View Layer Swapping Router Module
     function switchView(viewId) {
       document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      
       document.getElementById(viewId).classList.add('active');
       if (viewId === 'home-view') document.getElementById('btn-home').classList.add('active');
       if (viewId === 'hub-view') document.getElementById('btn-hub').classList.add('active');
+      if (viewId === 'webos-view') {
+        // Automatically check active links if entering via card hooks
+        const hubTab = document.getElementById('btn-hub');
+        if(hubTab) hubTab.classList.add('active');
+      }
     }
 
-    // WebOS Boot Logic
-    function bootWebOSShell() {
-      document.getElementById('apex-webos-shell').style.display = 'block';
-    }
+    // Multitasking Subsystem Process Window Spawning Factory Module
+    function spawnProcess(type) {
+      processCounterID++;
+      baselineZIndexTracker++;
 
-    function shutdownWebOSShell() {
-      const canvas = document.getElementById('os-workspace-canvas');
-      canvas.querySelectorAll('.os-draggable-window').forEach(win => {
-        if (win.dataset.loopEngineId) clearInterval(parseInt(win.dataset.loopEngineId));
-        if (win.dataset.bbInterval) clearInterval(parseInt(win.dataset.bbInterval));
-      });
-      canvas.innerHTML = '';
-      document.getElementById('apex-webos-shell').style.display = 'none';
-    }
+      const containerPlane = document.getElementById('os-canvas-plane');
+      const win = document.createElement('div');
+      win.className = 'os-draggable-window';
+      win.id = `proc-win-id-${processCounterID}`;
+      
+      // Cascade initial placement configurations
+      win.style.top = (30 + (processCounterID * 25) % 180) + 'px';
+      win.style.left = (50 + (processCounterID * 30) % 260) + 'px';
+      win.style.zIndex = baselineZIndexTracker;
 
-    // Dynamic Process Generator Engine
-    function spawnSystemProcess(processType) {
-      activePID++;
-      desktopTopFocusZ++;
+      let appTitleString = '';
+      let appIconEmoji = '';
+      let markupBodyString = '';
 
-      const workspace = document.getElementById('os-workspace-canvas');
-      const winFrame = document.createElement('div');
-      winFrame.className = 'os-draggable-window';
-      winFrame.id = `pid-frame-${activePID}`;
-      winFrame.style.top = (30 + (activePID * 25) % 180) + 'px';
-      winFrame.style.left = (50 + (activePID * 30) % 280) + 'px';
-      winFrame.style.zIndex = desktopTopFocusZ;
-
-      let runtimeTitle = '';
-      let layoutPayload = '';
-
-      if (processType === 'browser') {
-        runtimeTitle = 'HTTPS Web Browser Frame';
-        layoutPayload = `
-          <div class="browser-address-container">
-            <span class="browser-https-tag">🔒 HTTPS://</span>
-            <input type="text" id="browser-url-${activePID}" class="browser-url-input" value="example.com" onkeydown="if(event.key==='Enter') executeBrowserNavigation(${activePID})">
-            <button class="browser-go-btn" onclick="executeBrowserNavigation(${activePID})">Go</button>
-          </div>
-          <iframe src="https://example.com" id="browser-iframe-${activePID}" class="os-window-iframe"></iframe>`;
-      } 
-      else if (processType === 'editor') {
-        runtimeTitle = 'HTML Live Workspace Editor';
-        layoutPayload = `
-          <div class="html-editor-workspace">
-            <div class="html-editor-controlbar">
-              <span style="font-size:0.8rem; color:var(--text-muted); font-weight:bold; padding:4px;">Workspace Code Block</span>
-              <button class="html-run-btn" onclick="executeHtmlCompile(${activePID})">▶ Run Code</button>
+      // Conditional Factory router for structural window generation payload attachments
+      if (type === 'browser') {
+        appIconEmoji = '🌐';
+        appTitleString = 'Web Browser App';
+        markupBodyString = `
+          <div class="browser-engine-wrapper">
+            <div class="browser-address-bar">
+              <span class="https-tag"><i class="fa-solid fa-lock"></i> https://</span>
+              <input type="text" class="browser-address-input" id="b-input-${processCounterID}" value="example.com" onkeydown="if(event.key==='Enter') navigateBrowserFrame(${processCounterID})">
             </div>
-            <textarea id="html-code-${activePID}" class="html-code-textarea" placeholder="Enter HTML/CSS script blocks..."><h2 style='color:#007aff; text-align:center; margin-top:20px;'>Apex Sandbox Output</h2></textarea>
-            <iframe id="html-preview-${activePID}" class="html-live-output"></iframe>
+            <iframe src="https://example.com" class="browser-frame" id="b-frame-${processCounterID}"></iframe>
+          </div>`;
+      } else if (type === 'game') {
+        appIconEmoji = '🎮';
+        appTitleString = 'Geometry Dash Remake';
+        markupBodyString = `
+          <div class="arcade-game-viewport" onclick="runArcadeJumpMechanic(${processCounterID})">
+            <div class="arcade-ui-score" id="g-score-${processCounterID}">Score: 0</div>
+            <button class="arcade-ui-stop" onclick="toggleArcadeGameLoop(event, ${processCounterID})">Stop</button>
+            <div class="arcade-player-avatar" id="g-avatar-${processCounterID}"></div>
+            <div class="arcade-level-spike" id="g-spike-${processCounterID}"></div>
+            <div class="arcade-level-floor"></div>
+          </div>`;
+      } else if (type === 'html') {
+        appIconEmoji = '📝';
+        appTitleString = 'Live HTML Editor Workspace';
+        markupBodyString = `
+          <div class="editor-container">
+            <textarea class="editor-textarea" id="html-code-${processCounterID}" placeholder="Type HTML/CSS code here..." oninput="compileLiveHTMLOutput(${processCounterID})">&lt;h1 style="color: #007aff; text-align: center; font-family: sans-serif; margin-top:20px;"&gt;Hello Apex World!&lt;/h1&gt;</textarea>
+            <iframe class="editor-output-frame" id="html-out-${processCounterID}"></iframe>
+          </div>`;
+      } else if (type === 'bytebeat') {
+        appIconEmoji = '🎵';
+        appTitleString = 'Bytebeat Formula Composer';
+        markupBodyString = `
+          <div class="bytebeat-wrapper">
+            <p style="font-size:0.8rem; color:var(--text-muted)">Enter custom JavaScript sound math equations (variable: t)</p>
+            <input type="text" class="bytebeat-input" id="bb-expr-${processCounterID}" value="(t * 5 & t >> 7) | (t * 3 & t >> 10)">
+            <div class="bytebeat-controls-row">
+              <button class="bytebeat-btn" id="bb-toggle-${processCounterID}" onclick="toggleBytebeatAudioChannel(${processCounterID})">▶ Play Formula</button>
+              <div class="bytebeat-status" id="bb-status-${processCounterID}">Status: Audio Standby</div>
+            </div>
+            <div class="bytebeat-presets">
+              <label style="font-size:0.8rem; margin-right:6px">Presets:</label>
+              <select onchange="document.getElementById('bb-expr-${processCounterID}').value = this.value">
+                <option value="(t * 5 & t >> 7) | (t * 3 & t >> 10)">Classic Bit Shift</option>
+                <option value="t * ((t >> 12 | t >> 8) & 63 & t >> 4)">Glitch Symphony</option>
+                <option value="(t >> 6 | t | t >> (t >> 16)) * 10 + ((t >> 11 & 7) * t >> 3 & 10)">Cyber Drone Space</option>
+              </select>
+            </div>
           </div>`;
       }
-      else if (processType === 'bytebeat') {
-        runtimeTitle = 'Bytebeat Audio Sequencer';
-        layoutPayload = `
-          <div class="bytebeat-workspace">
-            <input type="text" id="bb-formula-${activePID}" class="bytebeat-input" value="(t*5&t>>7)|t*3&t>>10">
-            <div class="bytebeat-controls">
-              <button class="bb-btn
+
+      win.innerHTML = `
+        <div class="os-window-titlebar" onmousedown="initiateWindowMovementDrag(event, ${processCounterID})">
+          <div class="os-window-title"><span>${appIconEmoji}</span> ${appTitleString} [PID: ${processCounterID}]</div>
+          <div class="window-control-dots">
+            <button class="win-btn btn-size" onclick="toggleWindowMaximizeMode(${processCounterID})">Resize</button>
+            <button class="win-btn btn-fs" onclick="toggleWindowFullscreenMode(${processCounterID})">🗖 Fullscreen</button>
+            <button class="win-btn btn-close" onclick="terminateSubprocessWindow(${processCounterID})">✕</button>
+          </div>
+        </div>
+        <div class="os-window-body">
+          ${markupBodyString}
+          <!-- Native CSS manual resize corner handle grab structural layout item -->
+          <div class="os-resize-handle" onmousedown="initiateWindowResizeDrag(event, ${processCounterID})"></div>
+        </div>
+      `;
+
+      // Active stacking order focus listener attachment hook
+      win.addEventListener('mousedown', () => {
+        baselineZIndexTracker++;
+        win.style.zIndex = baselineZIndexTracker;
+      });
+
+      containerPlane.appendChild(win);
+
+      // Trigger automatic background runners post setup lifecycle mounting hooks
+      if (type === 'game') startArcadeEngineRuntimeLoop(processCounterID);
+      if (type === 'html') compileLiveHTMLOutput(processCounterID);
+    }
+
+    function terminateSubprocessWindow(pid) {
+      const targetWindow = document.getElementById(`proc-win-id-${pid}`);
+      if (!targetWindow) return;
+      
+      // Stop looping interval tasks to clean memory footprint traces
+      if (targetWindow.dataset.gameTimerId) clearInterval(parseInt(targetWindow.dataset.gameTimerId));
+      
+      // Stop live audio generation loops instantly if closing active music modules
+      if (targetWindow.bytebeatAudioContext) {
+        try {
+          if (targetWindow.bytebeatAudioScriptNode) targetWindow.bytebeatAudioScriptNode.disconnect();
+          targetWindow.bytebeatAudioContext.close();
+        } catch(err) { console.log(err); }
+      }
+
+      targetWindow.remove();
+    }
+
+    // Adaptive Window Geometry Layout Mode Changers
+    function toggleWindowMaximizeMode(pid) {
+      const targetWin = document.getElementById(`proc-win-id-${pid}`);
+      targetWin.
