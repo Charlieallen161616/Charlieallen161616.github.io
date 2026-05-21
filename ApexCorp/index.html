@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apex Interactive | Multitasking Platform</title>
+  <title>Apex Interactive | Unified Hub Platform</title>
 
-  <!-- BROWSER TAB FAVICON: Fixed embedding via inline SVG data pattern -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 292 300'%3E%3Cpath fill='%23007aff' d='M146 0 L292 300 L210 300 L146 130 L82 300 L0 300 Z'/%3E%3Cpath fill='%2300e676' d='M146 70 L230 240 L62 240 Z'/%3E%3C/svg%3E">
+  <!-- BROWSER TAB FAVICON: Inline SVG vector solution ensures instant cross-origin rendering -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 100 100'%3E%3Cpolygon points='50,10 90,90 70,90 50,45 30,90 10,90' fill='%23007aff'/%3E%3Cpolygon points='50,30 75,80 25,80' fill='%2300e676'/%3E%3C/svg%3E">
 
-  <!-- Font Awesome Icons for OS Dashboard UI -->
+  <!-- Font Awesome Icons for Dashboard UI elements -->
   <link rel="stylesheet" href="https://cloudflare.com">
 
   <style>
-    /* Reset & Theme Profiles */
+    /* Reset & CSS Custom Properties Setup */
     * {
       margin: 0;
       padding: 0;
@@ -23,6 +23,7 @@
 
     :root {
       --primary: #00e676;       
+      --accent-blue: #007aff; 
       --accent-purple: #6366f1; 
       --dark-bg: #0f172a;       
       --card-bg: #1e293b;       
@@ -34,8 +35,8 @@
     body {
       background-color: var(--dark-bg);
       color: var(--text-main);
-      overflow: hidden;
-      height: 100vh;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
 
     /* Fixed Navigation Header Layout */
@@ -43,13 +44,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.75rem 4%;
+      padding: 0.75rem 5%;
       background-color: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(12px);
-      position: relative;
+      position: sticky;
+      top: 0;
       z-index: 2000;
       border-bottom: 1px solid #334155;
-      height: 60px;
+      height: 65px;
     }
 
     .logo-container {
@@ -59,17 +61,14 @@
       text-decoration: none;
     }
 
-    /* Fixed Vector Branding Logo Canvas Component */
-    .logo-canvas {
+    /* Native inline SVG Vector branding logo geometry */
+    .logo-vector {
       width: 32px;
       height: 32px;
-      background: linear-gradient(135deg, #007aff, #00e676);
-      clip-path: polygon(50% 0%, 0% 100%, 25% 100%, 50% 35%, 75% 100%, 100% 100%);
-      box-shadow: 0 0 10px rgba(0, 230, 118, 0.4);
     }
 
     .logo {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: var(--text-main);
       letter-spacing: -0.5px;
@@ -77,13 +76,13 @@
 
     .logo span { color: var(--primary); }
 
-    .nav-links { display: flex; gap: 0.75rem; }
+    .nav-links { display: flex; gap: 1rem; }
 
     .nav-tab {
       background: transparent;
       border: none;
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
       padding: 0.5rem 1rem;
       cursor: pointer;
@@ -101,111 +100,214 @@
 
     .nav-tab.active i { color: var(--primary); }
 
-    /* Core Screen Switcher System Views */
+    /* Router Switcher Display Layout Panels */
     .view-panel {
       display: none;
-      height: calc(100vh - 60px);
-      overflow-y: auto;
       padding: 2rem 5%;
-      animation: fadeIn 0.3s ease;
+      animation: pageFadeIn 0.3s ease;
     }
 
     .view-panel.active { display: block; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* --- PANEL 1: HOME MENU BLUEPRINT --- */
+    /* --- PANEL 1: HOME PLATFORM INTRO --- */
     .hero-banner {
-      background-color: var(--accent-purple);
+      background: linear-gradient(135deg, var(--accent-purple), #4f46e5);
       border-radius: 24px;
       padding: 4rem;
       margin: 2rem 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
     }
 
-    .hero-content { max-width: 50%; }
-    .hero-content h1 { font-size: 3.2rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; }
-    .hero-content p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; }
+    .hero-content { max-width: 55%; }
+    .hero-content h1 { font-size: 3.4rem; font-weight: 800; line-height: 1.1; margin-bottom: 1rem; letter-spacing: -1px; }
+    .hero-content p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; line-height: 1.5; }
     .hero-btn {
       display: inline-block;
       background-color: var(--text-main);
-      color: var(--accent-purple);
+      color: #4f46e5;
       text-decoration: none;
       padding: 1rem 2.5rem;
       font-weight: 700;
       border-radius: 30px;
       transition: var(--transition);
       cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
-    .hero-btn:hover { transform: scale(1.03); }
+    .hero-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
 
-    /* --- PANEL 2: MULTITASKING WEB OS DESKTOP CONTAINER --- */
-    #webos-view {
-      padding: 0;
-      background: radial-gradient(circle at bottom left, #1e1b4b, #0f172a);
+    /* --- PANEL 2: GAME HUB CONSOLE DESIGN --- */
+    .hub-category-section {
+      margin-bottom: 3.5rem;
+    }
+
+    .category-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid #1e293b;
+      padding-bottom: 0.5rem;
+    }
+
+    .category-title i { color: var(--primary); }
+
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .hub-card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid transparent;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hub-card:hover {
+      transform: translateY(-5px);
+      border-color: #475569;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    }
+
+    .hub-card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 1.25rem;
+      color: white;
+    }
+
+    .hub-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .hub-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1.25rem; }
+    
+    .hub-launch-btn {
+      margin-top: auto;
+      background-color: rgba(255,255,255,0.05);
+      border: 1px solid #334155;
+      color: var(--text-main);
+      text-align: center;
+      padding: 0.6rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .hub-card:hover .hub-launch-btn {
+      background-color: var(--primary);
+      color: #000;
+      border-color: var(--primary);
+    }
+
+    /* --- WINDOW OPERATING SYSTEM WORKSPACE LAYER OVERLAYS --- */
+    .webos-fullscreen-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at bottom left, #1e1b4b, #020617);
+      z-index: 3000;
+      animation: systemBoot 0.4s cubic-bezier(0.1, 1, 0.1, 1);
+    }
+
+    @keyframes systemBoot {
+      from { opacity: 0; transform: scale(1.03); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .os-top-taskbar {
+      height: 40px;
+      background-color: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1.5rem;
+    }
+
+    .os-exit-shell-btn {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      padding: 3px 12px;
+      font-size: 0.8rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .os-exit-shell-btn:hover { background: #ef4444; color: white; }
+
+    .os-desktop-area {
+      height: calc(100vh - 95px);
       position: relative;
       overflow: hidden;
+      width: 100%;
     }
 
-    /* Desktop launch pad dock */
-    .os-desktop-dock {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: rgba(30, 41, 59, 0.6);
+    .os-dock-panel {
+      height: 55px;
+      background-color: rgba(30, 41, 59, 0.5);
       backdrop-filter: blur(20px);
-      padding: 0.75rem 1.5rem;
-      border-radius: 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
       display: flex;
-      gap: 1.5rem;
-      border: 1px solid rgba(255,255,255,0.1);
-      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
     }
 
-    .dock-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
+    .dock-launcher-item {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
       background-color: var(--card-bg);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       cursor: pointer;
-      color: white;
       transition: var(--transition);
-      border: 1px solid transparent;
     }
+    .dock-launcher-item:hover { transform: translateY(-5px); background-color: var(--accent-blue); }
 
-    .dock-icon:hover {
-      transform: translateY(-8px) scale(1.1);
-      background-color: var(--accent-purple);
-      border-color: var(--primary);
-    }
-
-    /* Floating WebOS Window Framework styles */
-    .os-window {
+    /* Window Frames */
+    .os-draggable-window {
       position: absolute;
-      width: 460px;
-      height: 380px;
+      width: 500px;
+      height: 400px;
       background-color: #1e293b;
       border-radius: 12px;
       border: 1px solid #475569;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
       display: flex;
       flex-direction: column;
       overflow: hidden;
       z-index: 10;
     }
 
-    .os-window-header {
+    .os-window-titlebar {
       background-color: #0f172a;
       padding: 0.6rem 1rem;
       display: flex;
@@ -217,300 +319,338 @@
       border-bottom: 1px solid #334155;
     }
 
-    .os-window-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .window-control-dots { display: flex; gap: 8px; }
+    .win-dot { width: 12px; height: 12px; border-radius: 50%; border: none; cursor: pointer; }
+    .dot-kill { background-color: #ef4444; }
+    .dot-expand { background-color: #eab308; }
 
-    .os-window-actions {
-      display: flex;
-      gap: 8px;
-    }
+    .os-window-body { flex-grow: 1; background-color: #000; position: relative; }
+    .os-window-iframe { width: 100%; height: 100%; border: none; background: white; }
 
-    .window-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: none;
-    }
-    .dot-close { background-color: #ef4444; }
-    .dot-max { background-color: #eab308; }
-
-    .os-window-content {
-      flex-grow: 1;
-      position: relative;
-      background-color: #000;
-    }
-
-    /* Window state modifiers */
-    .os-window.maximized {
+    .os-draggable-window.maximized {
       width: 100% !important;
-      height: calc(100% - 85px) !important;
+      height: 100% !important;
       top: 0 !important;
       left: 0 !important;
     }
 
-    /* Window components inside OS */
-    .os-iframe { width: 100%; height: 100%; border: none; background: white; }
-
-    /* --- ARCADE GAME DESIGN --- */
-    .gd-canvas-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, #111827, #000);
-      overflow: hidden;
-    }
-    .gd-cube {
+    /* --- INTEGRATED ARCADE GAME ENGINE APPS --- */
+    .arcade-game-viewport { width: 100%; height: 100%; background: linear-gradient(to bottom, #111827, #020617); position: relative; overflow: hidden; }
+    .arcade-player-avatar {
       width: 36px;
       height: 36px;
       position: absolute;
-      bottom: 30px;
+      bottom: 35px;
       left: 60px;
       border-radius: 6px;
-      background: linear-gradient(135deg, #007aff, #00e676);
-      box-shadow: 0 0 12px var(--primary);
+      /* Built-in vector alternative pattern fallback ensures logo structure inside game engine blocks */
+      background: linear-gradient(135deg, var(--accent-blue), var(--primary));
+      box-shadow: 0 0 14px var(--primary);
     }
-    .gd-floor { width: 100%; height: 30px; background-color: var(--primary); position: absolute; bottom: 0; left: 0; }
-    .gd-obstacle { width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 30px solid #ff0055; position: absolute; bottom: 30px; left: 500px; }
-    .gd-score-board { position: absolute; top: 12px; left: 12px; font-weight: bold; font-size: 1.1rem; }
-    .gd-stop-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; border: none; padding: 4px 10px; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+    .arcade-level-floor { width: 100%; height: 35px; background-color: var(--primary); position: absolute; bottom: 0; left: 0; box-shadow: 0 -4px 10px rgba(0,230,118,0.3); }
+    .arcade-level-spike { width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 32px solid #ff0055; position: absolute; bottom: 35px; left: 520px; }
+    .arcade-ui-score { position: absolute; top: 12px; left: 12px; font-weight: 800; font-size: 1.1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    .arcade-ui-stop { position: absolute; top: 10px; right: 10px; background: #ef4444; border: none; padding: 4px 12px; color: white; font-weight: 700; border-radius: 4px; cursor: pointer; font-size: 0.75rem; z-index: 5; }
 
-    .gd-jump-anim { animation: snappyJump 0.45s cubic-bezier(0.25, 1, 0.2, 1); }
-    @keyframes snappyJump {
-      0% { bottom: 30px; transform: rotate(0deg); }
-      40% { bottom: 120px; transform: rotate(75deg); } 
-      100% { bottom: 30px; transform: rotate(180deg); } 
+    .jump-physics-active { animation: arcadeJumpProfile 0.46s cubic-bezier(0.25, 1, 0.2, 1); }
+    @keyframes arcadeJumpProfile {
+      0% { bottom: 35px; transform: rotate(0deg); }
+      40% { bottom: 130px; transform: rotate(80deg); }
+      100% { bottom: 35px; transform: rotate(180deg); }
     }
-
-    /* --- CORE STORE APPLICATION LAYOUTS --- */
-    .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-    .app-card { background-color: var(--card-bg); border-radius: 16px; padding: 1.25rem; }
-    .app-icon { width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #334155, #475569); border-radius: 12px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
   </style>
 </head>
 <body>
 
-  <!-- Navigation Header Interface -->
+  <!-- Main Platform Top Header Navigation -->
   <nav class="navbar">
     <a href="#" class="logo-container" onclick="switchView('home-view')">
-      <!-- Fixed vector logo replaces broken image asset web targets -->
-      <div class="logo-canvas"></div>
+      <!-- Fixed vector markup renders branding inline instantly without cloud file handshakes -->
+      <svg class="logo-vector" viewBox="0 0 100 100">
+        <polygon points="50,10 95,90 75,90 50,45 25,90 5,90" fill="#007aff"/>
+        <polygon points="50,32 72,78 28,78" fill="#00e676"/>
+      </svg>
       <div class="logo">APEX<span>INTERACTIVE</span></div>
     </a>
     <div class="nav-links">
       <button class="nav-tab active" id="btn-home" onclick="switchView('home-view')"><i class="fa-solid fa-house"></i>Home</button>
-      <button class="nav-tab" id="btn-webos" onclick="switchView('webos-view')"><i class="fa-solid fa-window-restore"></i>Web OS Desktop</button>
       <button class="nav-tab" id="btn-hub" onclick="switchView('hub-view')"><i class="fa-solid fa-layer-group"></i>Game Hub</button>
     </div>
   </nav>
 
-  <!-- PANEL 1: HOME PAGE -->
+  <!-- WINDOW CONTAINER MODULE LAYER 1: LANDING OVERVIEW -->
   <main id="home-view" class="view-panel active">
     <div class="hero-banner">
       <div class="hero-content">
-        <h1>Run APEX WebOS Multitasking Environment</h1>
-        <p>Launch distinct windows, play games, and scan network spaces concurrently completely inside an agile browser layout frame configuration.</p>
-        <div class="hero-btn" onclick="switchView('webos-view')">Launch WebOS</div>
+        <h1>Welcome to Apex Hub</h1>
+        <p>Explore high-performance browser tools, vintage platform recreations, and fully isolated workspace layers tailored directly into a single dashboard framework.</p>
+        <div class="hero-btn" onclick="switchView('hub-view')">Enter Game Hub</div>
       </div>
     </div>
   </main>
 
-  <!-- PANEL 2: MULTITASKING DESKTOP OPERATING SYSTEM -->
-  <main id="webos-view" class="view-panel">
-    
-    <!-- App launcher tray panel -->
-    <div class="os-desktop-dock">
-      <div class="dock-icon" title="Launch Browser App" onclick="spawnOSWindow('browser')"><i class="fa-solid fa-globe"></i></div>
-      <div class="dock-icon" title="Launch Geometry Dash App" onclick="spawnOSWindow('game')"><i class="fa-solid fa-gamepad"></i></div>
-    </div>
-
-    <!-- Application windows will spawn inside this parent space -->
-  </main>
-
-  <!-- PANEL 3: GAME STORE DECK -->
+  <!-- WINDOW CONTAINER MODULE LAYER 2: UNIFIED SOFTWARE GAME HUB -->
   <main id="hub-view" class="view-panel">
-    <h2>Apex Hub System Packages</h2>
-    <div class="app-grid">
-      <div class="app-card">
-        <div class="app-icon" style="background: linear-gradient(135deg, #ef4444, #f97316)">💥</div>
-        <h3>Apex Action System</h3>
+    
+    <!-- SUBSECTION DELIMITER A: INTERACTIVE PLATFORMS -->
+    <section class="hub-category-section">
+      <div class="category-title">
+        <i class="fa-solid fa-microchip"></i>
+        <h2>Core Systems & Environments</h2>
       </div>
-      <div class="app-card">
-        <div class="app-icon" style="background: linear-gradient(135deg, #06b6d4, #3b82f6)">🛠️</div>
-        <h3>Apex Core Terminal</h3>
+      <div class="hub-grid">
+        
+        <!-- WebOS Deployment App Launcher Hook Card -->
+        <div class="hub-card" onclick="bootWebOSShell()">
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #6366f1, #a855f7);">
+            <i class="fa-solid fa-window-restore"></i>
+          </div>
+          <h3>Multitasking WebOS</h3>
+          <p>Launch a secure virtual desktop interface that runs multiple browser tabs and isolated mini-games in overlapping, resizable windows.</p>
+          <div class="hub-launch-btn">Boot OS Workspace</div>
+        </div>
+
       </div>
-    </div>
+    </section>
+
+    <!-- SUBSECTION DELIMITER B: NATIVE BROWSER ARCADE TITLES -->
+    <section class="hub-category-section">
+      <div class="category-title">
+        <i class="fa-solid fa-gamepad"></i>
+        <h2>Apex Arcade Center</h2>
+      </div>
+      <div class="hub-grid">
+
+        <!-- Standalone Grid Entry 1: Geometry Dash Arena Wrapper -->
+        <div class="hub-card" onclick="bootWebOSShell(); spawnSystemProcess('game');">
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #007aff, #00e676);">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h3>Geometry Dash Remake</h3>
+          <p>Experience snappier physics gravity tuning and integrated level tracking elements calibrated with immediate keyboard response bindings.</p>
+          <div class="hub-launch-btn">Play Game</div>
+        </div>
+
+        <!-- Standalone Grid Entry 2: External Virtual Frame IFrame Terminal -->
+        <div class="hub-card" onclick="bootWebOSShell(); spawnSystemProcess('browser');">
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
+            <i class="fa-solid fa-globe"></i>
+          </div>
+          <h3>In-Game Web Browser</h3>
+          <p>Access utility platforms, network nodes, and documentation guides inside an optimized sandbox overlay container window.</p>
+          <div class="hub-launch-btn">Open Browser</div>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
-  <!-- WORKSPACE ROUTERS AND PROCESS CONTROLLER SCRIPTS -->
-  <script>
-    let windowCount = 0;
-    let activeZIndex = 100;
+  <!-- --- FULL SCREEN MULTITASKING DESKTOP OPERATING SYSTEM FRAMEWORK LINKAGE --- -->
+  <div id="apex-webos-shell" class="webos-fullscreen-container">
+    <div class="os-top-taskbar">
+      <div style="font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
+        <i class="fa-solid fa-network-wired" style="color: var(--primary);"></i> APEX WebOS Desktop v1.4
+      </div>
+      <button class="os-exit-shell-btn" onclick="shutdownWebOSShell()"><i class="fa-solid fa-power-off"></i> Exit System</button>
+    </div>
 
-    // View Routing Core Module
-    function switchView(panelId) {
-      document.querySelectorAll('.view-panel').forEach(view => view.classList.remove('active'));
-      document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-      document.getElementById(panelId).classList.add('active');
+    <!-- Desktop window spawn area matrix -->
+    <div class="os-desktop-area" id="os-workspace-canvas"></div>
+
+    <!-- Persistent app launcher quick tray dock -->
+    <div class="os-dock-panel">
+      <div class="dock-launcher-item" title="Launch Sandbox Web Browser" onclick="spawnSystemProcess('browser')"><i class="fa-solid fa-globe"></i></div>
+      <div class="dock-launcher-item" title="Launch Arcade Gameplay Arena" onclick="spawnSystemProcess('game')"><i class="fa-solid fa-gamepad"></i></div>
+    </div>
+  </div>
+
+  <!-- PLATFORM ORCHESTRATION ARCHITECTURE RUNTIME ENGINE -->
+  <script>
+    let activePID = 0;
+    let desktopTopFocusZ = 500;
+
+    // View Navigation Module
+    function switchView(viewId) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
       
-      if(panelId === 'home-view') document.getElementById('btn-home').classList.add('active');
-      if(panelId === 'webos-view') document.getElementById('btn-webos').classList.add('active');
-      if(panelId === 'hub-view') document.getElementById('btn-hub').classList.add('active');
+      document.getElementById(viewId).classList.add('active');
+      if (viewId === 'home-view') document.getElementById('btn-home').classList.add('active');
+      if (viewId === 'hub-view') document.getElementById('btn-hub').classList.add('active');
     }
 
-    // Multitasking Dynamic Window Spawning System Engine
-    function spawnOSWindow(type) {
-      windowCount++;
-      activeZIndex++;
-      
-      const desktop = document.getElementById('webos-view');
-      const win = document.createElement('div');
-      win.className = 'os-window';
-      win.id = 'win-' + windowCount;
-      win.style.top = (40 + (windowCount * 25) % 150) + 'px';
-      win.style.left = (60 + (windowCount * 30) % 250) + 'px';
-      win.style.zIndex = activeZIndex;
+    // WebOS Power Infrastructure Control Methods
+    function bootWebOSShell() {
+      document.getElementById('apex-webos-shell').style.display = 'block';
+    }
 
-      let titleText = type === 'browser' ? 'Web Browser App' : 'Geometry Dash Remake Arena';
-      let contentHTML = '';
+    function shutdownWebOSShell() {
+      const canvas = document.getElementById('os-workspace-canvas');
+      // Wipe structural nodes to clean up running game cycles and prevent memory usage building up
+      canvas.querySelectorAll('.os-draggable-window').forEach(win => {
+        if (win.dataset.loopEngineId) clearInterval(parseInt(win.dataset.loopEngineId));
+      });
+      canvas.innerHTML = '';
+      document.getElementById('apex-webos-shell').style.display = 'none';
+    }
 
-      if (type === 'browser') {
-        contentHTML = `<iframe src="https://example.com" class="os-iframe"></iframe>`;
+    // Dynamic Process Generator Engine
+    function spawnSystemProcess(processType) {
+      activePID++;
+      desktopTopFocusZ++;
+
+      const workspace = document.getElementById('os-workspace-canvas');
+      const winFrame = document.createElement('div');
+      winFrame.className = 'os-draggable-window';
+      winFrame.id = `pid-frame-${activePID}`;
+      winFrame.style.top = (30 + (activePID * 25) % 180) + 'px';
+      winFrame.style.left = (50 + (activePID * 30) % 280) + 'px';
+      winFrame.style.zIndex = desktopTopFocusZ;
+
+      let runtimeTitle = processType === 'browser' ? 'Web Browser Frame' : 'Geometry Dash Arcade Arena';
+      let layoutPayload = '';
+
+      if (processType === 'browser') {
+        layoutPayload = `<iframe src="https://example.com" class="os-window-iframe"></iframe>`;
       } else {
-        contentHTML = `
-          <div class="gd-canvas-container" onclick="triggerOSJump(${windowCount})">
-            <div class="gd-score-board" id="gd-score-${windowCount}">Score: 0</div>
-            <button class="gd-stop-btn" onclick="toggleOSGameStop(event, ${windowCount})">Stop</button>
-            <div class="gd-cube" id="gd-cube-${windowCount}"></div>
-            <div class="gd-obstacle" id="gd-spike-${windowCount}"></div>
-            <div class="gd-floor"></div>
+        layoutPayload = `
+          <div class="arcade-game-viewport" onclick="triggerInstanceJump(${activePID})">
+            <div class="arcade-ui-score" id="game-score-board-${activePID}">Score: 0</div>
+            <button class="arcade-ui-stop" onclick="toggleIsolatedGameEngineStop(event, ${activePID})">Stop</button>
+            <div class="arcade-player-avatar" id="game-avatar-${activePID}"></div>
+            <div class="arcade-level-spike" id="game-spike-${activePID}"></div>
+            <div class="arcade-level-floor"></div>
           </div>`;
       }
 
-      win.innerHTML = `
-        <div class="os-window-header" onmousedown="initWindowDrag(event, 'win-${windowCount}')">
-          <div class="os-window-title"><i class="${type==='browser'?'fa-solid fa-globe':'fa-solid fa-gamepad'}"></i> ${titleText}</div>
-          <div class="os-window-actions">
-            <button class="window-dot stop-btn dot-max" onclick="toggleWindowMaximize('win-${windowCount}')"></button>
-            <button class="window-dot stop-btn dot-close" onclick="closeOSWindow('win-${windowCount}')"></button>
+      winFrame.innerHTML = `
+        <div class="os-window-titlebar" onmousedown="engageFrameDrag(event, 'pid-frame-${activePID}')">
+          <div><i class="${processType === 'browser' ? 'fa-solid fa-globe' : 'fa-solid fa-circle-play'}"></i> ${runtimeTitle} [PID: ${activePID}]</div>
+          <div class="window-control-dots">
+            <button class="win-dot dot-expand" onclick="toggleFrameMaximize('pid-frame-${activePID}')"></button>
+            <button class="win-dot dot-kill" onclick="killSystemProcess('pid-frame-${activePID}')"></button>
           </div>
         </div>
-        <div class="os-window-content">${contentHTML}</div>
+        <div class="os-window-body">${layoutPayload}</div>
       `;
 
-      // Bring to front focus listener hook
-      win.addEventListener('mousedown', () => {
-        activeZIndex++;
-        win.style.zIndex = activeZIndex;
+      // Click to focus layer arrangement
+      winFrame.addEventListener('mousedown', () => {
+        desktopTopFocusZ++;
+        winFrame.style.zIndex = desktopTopFocusZ;
       });
 
-      desktop.appendChild(win);
+      workspace.appendChild(winFrame);
 
-      if (type === 'game') {
-        launchOSGameEngine(windowCount);
+      if (processType === 'game') {
+        initializeIsolatedGameLoop(activePID);
       }
     }
 
-    function closeOSWindow(id) {
-      const win = document.getElementById(id);
-      if (win.dataset.loopId) clearInterval(parseInt(win.dataset.loopId));
-      win.remove();
+    function killSystemProcess(frameId) {
+      const targetWin = document.getElementById(frameId);
+      if (targetWin.dataset.loopEngineId) {
+        clearInterval(parseInt(targetWin.dataset.loopEngineId));
+      }
+      targetWin.remove();
     }
 
-    function toggleWindowMaximize(id) {
-      document.getElementById(id).classList.toggle('maximized');
+    function toggleFrameMaximize(frameId) {
+      document.getElementById(frameId).classList.toggle('maximized');
     }
 
-    // Windows Draggable Tracking Sub-Module Engine 
-    function initWindowDrag(e, id) {
-      if (e.target.classList.contains('window-dot')) return;
-      const win = document.getElementById(id);
-      if (win.classList.contains('maximized')) return;
+    // Drag tracking module
+    function engageFrameDrag(e, frameId) {
+      if (e.target.classList.contains('win-dot')) return;
+      const targetFrame = document.getElementById(frameId);
+      if (targetFrame.classList.contains('maximized')) return;
+
+      desktopTopFocusZ++;
+      targetFrame.style.zIndex = desktopTopFocusZ;
+
+      let cursorX = e.clientX;
+      let cursorY = e.clientY;
+
+      function trackingMotion(e) {
+        let offsetX = cursorX - e.clientX;
+        let offsetY = cursorY - e.clientY;
+        cursorX = e.clientX;
+        cursorY = e.clientY;
+        targetFrame.style.top = (targetFrame.offsetTop - offsetY) + "px";
+        targetFrame.style.left = (targetFrame.offsetLeft - offsetX) + "px";
+      }
+
+      function breakTracking() {
+        document.removeEventListener('mousemove', trackingMotion);
+        document.removeEventListener('mouseup', breakTracking);
+      }
+
+      document.addEventListener('mousemove', trackingMotion);
+      document.addEventListener('mouseup', breakTracking);
+    }
+
+    // Isolated Side-Scroller Physics Core Runtime
+    function triggerInstanceJump(pid) {
+      const characterElement = document.getElementById(`game-avatar-${pid}`);
+      if (!characterElement || characterElement.classList.contains('jump-physics-active')) return;
+      characterElement.classList.add('jump-physics-active');
+      setTimeout(() => {
+        if (characterElement) characterElement.classList.remove('jump-physics-active');
+      }, 450);
+    }
+
+    function toggleIsolatedGameEngineStop(e, pid) {
+      e.stopPropagation(); // Block viewport container canvas body jump events 
+      const masterWinFrame = document.getElementById(`pid-frame-${pid}`);
       
-      activeZIndex++;
-      win.style.zIndex = activeZIndex;
-
-      let posX = e.clientX;
-      let posY = e.clientY;
-
-      function docMove(e) {
-        let diffX = posX - e.clientX;
-        let diffY = posY - e.clientY;
-        posX = e.clientX;
-        posY = e.clientY;
-        win.style.top = (win.offsetTop - diffY) + "px";
-        win.style.left = (win.offsetLeft - diffX) + "px";
-      }
-
-      function docUp() {
-        document.removeEventListener('mousemove', docMove);
-        document.removeEventListener('mouseup', docUp);
-      }
-
-      document.addEventListener('mousemove', docMove);
-      document.addEventListener('mouseup', docUp);
-    }
-
-    // Multi-instance Isolated Game Engines Logic Controllers
-    function triggerOSJump(id) {
-      const cube = document.getElementById(`gd-cube-${id}`);
-      if (!cube || cube.classList.contains('gd-jump-anim')) return;
-      cube.classList.add('gd-jump-anim');
-      setTimeout(() => cube.classList.remove('gd-jump-anim'), 450);
-    }
-
-    function toggleOSGameStop(e, id) {
-      e.stopPropagation();
-      const win = document.getElementById(`win-${id}`);
-      if (win.dataset.paused === "true") {
-        win.dataset.paused = "false";
+      if (masterWinFrame.dataset.isEnginePaused === "true") {
+        masterWinFrame.dataset.isEnginePaused = "false";
         e.target.innerText = "Stop";
         e.target.style.background = "#ef4444";
-        launchOSGameEngine(id);
+        initializeIsolatedGameLoop(pid);
       } else {
-        win.dataset.paused = "true";
+        masterWinFrame.dataset.isEnginePaused = "true";
         e.target.innerText = "Resume";
         e.target.style.background = "var(--primary)";
-        clearInterval(parseInt(win.dataset.loopId));
+        clearInterval(parseInt(masterWinFrame.dataset.loopEngineId));
       }
     }
 
-    function launchOSGameEngine(id) {
-      const win = document.getElementById(`win-${id}`);
-      clearInterval(parseInt(win.dataset.loopId));
-      
-      let score = parseInt(win.dataset.score || 0);
-      let obstacleX = parseInt(win.dataset.obsX || 500);
-      
-      const scoreBoard = document.getElementById(`gd-score-${id}`);
-      const obstacle = document.getElementById(`gd-spike-${id}`);
-      const cube = document.getElementById(`gd-cube-${id}`);
+    function initializeIsolatedGameLoop(pid) {
+      const winInstance = document.getElementById(`pid-frame-${pid}`);
+      clearInterval(parseInt(winInstance.dataset.loopEngineId));
 
-      let loop = setInterval(() => {
-        obstacleX -= 6;
-        if (obstacleX < -30) {
-          obstacleX = 460;
-          score += 10;
-          scoreBoard.innerText = "Score: " + score;
-          win.dataset.score = score;
+      let scoreCounter = parseInt(winInstance.dataset.savedScore || 0);
+      let dangerSpikeX = parseInt(winInstance.dataset.savedSpikeX || 520);
+
+      const readoutMetrics = document.getElementById(`game-score-board-${pid}`);
+      const obstacleNode = document.getElementById(`game-spike-${pid}`);
+      const characterNode = document.getElementById(`game-avatar-${pid}`);
+
+      let localizedIntervalId = setInterval(() => {
+        dangerSpikeX -= 7;
+        if (dangerSpikeX < -25) {
+          dangerSpikeX = 490;
+          scoreCounter += 10;
+          if (readoutMetrics) readoutMetrics.innerText = "Score: " + scoreCounter;
+          winInstance.dataset.savedScore = scoreCounter;
         }
-        if (obstacle) obstacle.style.left = obstacleX + "px";
-        win.dataset.obsX = obstacleX;
 
-        // Collision box metric detection tracking inside dynamic size windows
-        if (obstacleX > 60 && obstacleX < 96 && cube && !cube.classList.contains('gd-jump-anim')) {
-          clearInterval(loop);
-          alert(`Game Over Instance [${id}]! Score: ${score}`);
-          win.dataset.score = 0;
-          win.dataset.obsX = 500;
-          launchOSGameEngine(id);
+        if (obstacleNode) obstacleNode.style.left = dangerSpikeX + "px";
+        winInstance.dataset.savedSpikeX = dangerSpikeX;
+
+        // Bounding collision checks inside responsive frames
+        if (dangerSpikeX > 60 && dangerSpikeX < 96 && characterNode && !characterNode.classList.contains('jump-physics-active')) {
+          clearInterval(localizedIntervalId);
+          alert(`Instance Finished! PID Frame [${pid}] total score calculation reached: ${scoreCounter}`);
+          winInstance.dataset.savedScore = 0;
+          winInstance.dataset.savedSpikeX = 520;
+          initializeIsolatedGameLoop(pid);
         }
-      }, 25);
+      }, 22);
 
-      win.dataset.loopId = loop;
+      winInstance.dataset.loopEngineId = localizedIntervalId;
     }
   </script>
 </body>
