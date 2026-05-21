@@ -8,9 +8,6 @@
   <!-- BROWSER TAB FAVICON: Inline SVG vector solution ensures instant cross-origin rendering -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 100 100'%3E%3Cpolygon points='50,10 90,90 70,90 50,45 30,90 10,90' fill='%23007aff'/%3E%3Cpolygon points='50,30 75,80 25,80' fill='%2300e676'/%3E%3C/svg%3E">
 
-  <!-- Font Awesome Icons for Dashboard UI elements -->
-  <link rel="stylesheet" href="https://cloudflare.com">
-
   <style>
     /* Reset & CSS Custom Properties Setup */
     * {
@@ -61,7 +58,6 @@
       text-decoration: none;
     }
 
-    /* Native inline SVG Vector branding logo geometry */
     .logo-vector {
       width: 32px;
       height: 32px;
@@ -98,9 +94,7 @@
       background-color: var(--card-bg);
     }
 
-    .nav-tab.active i { color: var(--primary); }
-
-    /* Router Switcher Display Layout Panels */
+    /* Display Layout Panels */
     .view-panel {
       display: none;
       padding: 2rem 5%;
@@ -158,8 +152,6 @@
       border-bottom: 2px solid #1e293b;
       padding-bottom: 0.5rem;
     }
-
-    .category-title i { color: var(--primary); }
 
     .hub-grid {
       display: grid;
@@ -267,6 +259,8 @@
       width: 100%;
     }
 
+    .os-desktop-area:-webkit-full-screen { width: 100vw; height: 100vh; }
+
     .os-dock-panel {
       height: 55px;
       background-color: rgba(30, 41, 59, 0.5);
@@ -292,11 +286,13 @@
     }
     .dock-launcher-item:hover { transform: translateY(-5px); background-color: var(--accent-blue); }
 
-    /* Window Frames */
+    /* Window Frames with Resizing Support */
     .os-draggable-window {
       position: absolute;
-      width: 500px;
-      height: 400px;
+      width: 540px;
+      height: 420px;
+      min-width: 300px;
+      min-height: 250px;
       background-color: #1e293b;
       border-radius: 12px;
       border: 1px solid #475569;
@@ -305,6 +301,7 @@
       flex-direction: column;
       overflow: hidden;
       z-index: 10;
+      resize: both; /* Native window resize handle */
     }
 
     .os-window-titlebar {
@@ -319,22 +316,148 @@
       border-bottom: 1px solid #334155;
     }
 
-    .window-control-dots { display: flex; gap: 8px; }
-    .win-dot { width: 12px; height: 12px; border-radius: 50%; border: none; cursor: pointer; }
+    .window-control-dots { display: flex; gap: 8px; align-items: center; }
+    .win-dot { width: 14px; height: 14px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 8px; color: transparent; font-weight: bold; }
+    .win-dot:hover { color: rgba(0,0,0,0.6); }
     .dot-kill { background-color: #ef4444; }
     .dot-expand { background-color: #eab308; }
+    .dot-fullscreen { background-color: #22c55e; }
 
-    .os-window-body { flex-grow: 1; background-color: #000; position: relative; }
+    .os-window-body { flex-grow: 1; background-color: #000; position: relative; display: flex; flex-direction: column; overflow: hidden; }
     .os-window-iframe { width: 100%; height: 100%; border: none; background: white; }
 
+    /* Window states */
     .os-draggable-window.maximized {
       width: 100% !important;
       height: 100% !important;
       top: 0 !important;
       left: 0 !important;
+      resize: none;
     }
 
-    /* --- INTEGRATED ARCADE GAME ENGINE APPS --- */
+    .os-draggable-window.fullscreen-mode {
+      width: 100vw !important;
+      height: 100vh !important;
+      top: 0 !important;
+      left: 0 !important;
+      position: fixed !important;
+      z-index: 99999 !important;
+      border-radius: 0;
+      resize: none;
+    }
+
+    /* --- HTTPS BROWSER MODULE STYLING --- */
+    .browser-address-container {
+      display: flex;
+      background-color: #0f172a;
+      padding: 6px 12px;
+      gap: 8px;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+    .browser-https-tag {
+      font-size: 0.75rem;
+      background-color: #1e293b;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: var(--primary);
+      font-weight: bold;
+    }
+    .browser-url-input {
+      flex-grow: 1;
+      background-color: #1e293b;
+      border: 1px solid #475569;
+      color: white;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+    .browser-go-btn {
+      background-color: var(--accent-blue);
+      color: white;
+      border: none;
+      padding: 3px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+
+    /* --- HTML LIVE EDITOR COMPONENT --- */
+    .html-editor-workspace {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      background-color: #1e293b;
+    }
+    .html-editor-controlbar {
+      background-color: #0f172a;
+      padding: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .html-run-btn {
+      background-color: var(--primary);
+      color: #000;
+      border: none;
+      padding: 4px 15px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .html-code-textarea {
+      width: 100%;
+      height: 50%;
+      background-color: #020617;
+      color: #38bdf8;
+      font-family: monospace;
+      padding: 10px;
+      border: none;
+      resize: none;
+      outline: none;
+      font-size: 0.9rem;
+    }
+    .html-live-output {
+      width: 100%;
+      height: 50%;
+      background-color: white;
+      border: none;
+    }
+
+    /* --- BYTEBEAT MUSIC MODULATOR EDITOR --- */
+    .bytebeat-workspace {
+      width: 100%;
+      height: 100%;
+      background-color: #0b0f19;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .bytebeat-input {
+      width: 100%;
+      background-color: #020617;
+      border: 1px solid #334155;
+      color: #a78bfa;
+      padding: 10px;
+      font-family: monospace;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      outline: none;
+    }
+    .bytebeat-controls { display: flex; gap: 10px; }
+    .bb-btn { padding: 6px 16px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .bb-play { background-color: var(--primary); color: #000; }
+    .bb-stop { background-color: #ef4444; color: white; }
+    .bytebeat-visualizer-canvas {
+      flex-grow: 1;
+      background-color: #020617;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+    }
+
+    /* --- ARCADE GAME ENGINE APPS --- */
     .arcade-game-viewport { width: 100%; height: 100%; background: linear-gradient(to bottom, #111827, #020617); position: relative; overflow: hidden; }
     .arcade-player-avatar {
       width: 36px;
@@ -343,7 +466,6 @@
       bottom: 35px;
       left: 60px;
       border-radius: 6px;
-      /* Built-in vector alternative pattern fallback ensures logo structure inside game engine blocks */
       background: linear-gradient(135deg, var(--accent-blue), var(--primary));
       box-shadow: 0 0 14px var(--primary);
     }
@@ -365,7 +487,6 @@
   <!-- Main Platform Top Header Navigation -->
   <nav class="navbar">
     <a href="#" class="logo-container" onclick="switchView('home-view')">
-      <!-- Fixed vector markup renders branding inline instantly without cloud file handshakes -->
       <svg class="logo-vector" viewBox="0 0 100 100">
         <polygon points="50,10 95,90 75,90 50,45 25,90 5,90" fill="#007aff"/>
         <polygon points="50,32 72,78 28,78" fill="#00e676"/>
@@ -373,95 +494,102 @@
       <div class="logo">APEX<span>INTERACTIVE</span></div>
     </a>
     <div class="nav-links">
-      <button class="nav-tab active" id="btn-home" onclick="switchView('home-view')"><i class="fa-solid fa-house"></i>Home</button>
-      <button class="nav-tab" id="btn-hub" onclick="switchView('hub-view')"><i class="fa-solid fa-layer-group"></i>Game Hub</button>
+      <button class="nav-tab active" id="btn-home" onclick="switchView('home-view')">🏠 Home</button>
+      <button class="nav-tab" id="btn-hub" onclick="switchView('hub-view')">🎮 Game Hub</button>
     </div>
   </nav>
 
-  <!-- WINDOW CONTAINER MODULE LAYER 1: LANDING OVERVIEW -->
+  <!-- LAYER 1: LANDING OVERVIEW -->
   <main id="home-view" class="view-panel active">
     <div class="hero-banner">
       <div class="hero-content">
         <h1>Welcome to Apex Hub</h1>
-        <p>Explore high-performance browser tools, vintage platform recreations, and fully isolated workspace layers tailored directly into a single dashboard framework.</p>
+        <p>Explore high-performance browser tools, development systems, algorithmic sequencers, and virtual workspaces built inside an immersive client ecosystem.</p>
         <div class="hero-btn" onclick="switchView('hub-view')">Enter Game Hub</div>
       </div>
     </div>
   </main>
 
-  <!-- WINDOW CONTAINER MODULE LAYER 2: UNIFIED SOFTWARE GAME HUB -->
+  <!-- LAYER 2: UNIFIED SOFTWARE GAME HUB -->
   <main id="hub-view" class="view-panel">
     
-    <!-- SUBSECTION DELIMITER A: INTERACTIVE PLATFORMS -->
+    <!-- SUBSECTION A: OS ENVIRONMENTS -->
     <section class="hub-category-section">
       <div class="category-title">
-        <i class="fa-solid fa-microchip"></i>
-        <h2>Core Systems & Environments</h2>
+        <h2>🖥️ Core Systems & Environments</h2>
       </div>
       <div class="hub-grid">
-        
-        <!-- WebOS Deployment App Launcher Hook Card -->
         <div class="hub-card" onclick="bootWebOSShell()">
-          <div class="hub-card-icon" style="background: linear-gradient(135deg, #6366f1, #a855f7);">
-            <i class="fa-solid fa-window-restore"></i>
-          </div>
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #6366f1, #a855f7);">🗔</div>
           <h3>Multitasking WebOS</h3>
-          <p>Launch a secure virtual desktop interface that runs multiple browser tabs and isolated mini-games in overlapping, resizable windows.</p>
+          <p>Launch a secure virtual desktop interface that runs sandbox code builders, browser windows, audio synthesis grids, and gaming modules concurrently.</p>
           <div class="hub-launch-btn">Boot OS Workspace</div>
         </div>
-
       </div>
     </section>
 
-    <!-- SUBSECTION DELIMITER B: NATIVE BROWSER ARCADE TITLES -->
+    <!-- SUBSECTION B: NATIVE DEVELOPER LAB & ENGINES -->
     <section class="hub-category-section">
       <div class="category-title">
-        <i class="fa-solid fa-gamepad"></i>
-        <h2>Apex Arcade Center</h2>
+        <h2>🛠️ Integrated Creator Utilities</h2>
       </div>
       <div class="hub-grid">
+        <div class="hub-card" onclick="bootWebOSShell(); spawnSystemProcess('editor');">
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #ec4899, #f43f5e);">📝</div>
+          <h3>HTML Live Code Builder</h3>
+          <p>Develop, arrange, and debug front-end code scripting blueprints inside a synchronized side-by-side execution display field.</p>
+          <div class="hub-launch-btn">Open Editor</div>
+        </div>
+        <div class="hub-card" onclick="bootWebOSShell(); spawnSystemProcess('bytebeat');">
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">🎵</div>
+          <h3>Bytebeat Audio Modulator</h3>
+          <p>Construct complex, mathematical 8-bit noise landscapes and chip-tune tracks using standard logic array variables.</p>
+          <div class="hub-launch-btn">Open Bytebeat Synth</div>
+        </div>
+      </div>
+    </section>
 
-        <!-- Standalone Grid Entry 1: Geometry Dash Arena Wrapper -->
+    <!-- SUBSECTION C: NATIVE BROWSER ARCADE TITLES -->
+    <section class="hub-category-section">
+      <div class="category-title">
+        <h2>🕹️ Apex Arcade Center</h2>
+      </div>
+      <div class="hub-grid">
         <div class="hub-card" onclick="bootWebOSShell(); spawnSystemProcess('game');">
-          <div class="hub-card-icon" style="background: linear-gradient(135deg, #007aff, #00e676);">
-            <i class="fa-solid fa-bolt"></i>
-          </div>
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #007aff, #00e676);">⚡</div>
           <h3>Geometry Dash Remake</h3>
           <p>Experience snappier physics gravity tuning and integrated level tracking elements calibrated with immediate keyboard response bindings.</p>
           <div class="hub-launch-btn">Play Game</div>
         </div>
-
-        <!-- Standalone Grid Entry 2: External Virtual Frame IFrame Terminal -->
         <div class="hub-card" onclick="bootWebOSShell(); spawnSystemProcess('browser');">
-          <div class="hub-card-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
-            <i class="fa-solid fa-globe"></i>
-          </div>
+          <div class="hub-card-icon" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">🌐</div>
           <h3>In-Game Web Browser</h3>
-          <p>Access utility platforms, network nodes, and documentation guides inside an optimized sandbox overlay container window.</p>
+          <p>Access utility platforms, network nodes, and documentation guides inside an optimized address-seeking container window.</p>
           <div class="hub-launch-btn">Open Browser</div>
         </div>
-
       </div>
     </section>
 
   </main>
 
-  <!-- --- FULL SCREEN MULTITASKING DESKTOP OPERATING SYSTEM FRAMEWORK LINKAGE --- -->
+  <!-- --- MULTITASKING DESKTOP OPERATING SYSTEM OVERLAY --- -->
   <div id="apex-webos-shell" class="webos-fullscreen-container">
     <div class="os-top-taskbar">
       <div style="font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
-        <i class="fa-solid fa-network-wired" style="color: var(--primary);"></i> APEX WebOS Desktop v1.4
+        ⚙️ APEX WebOS Desktop v1.8
       </div>
-      <button class="os-exit-shell-btn" onclick="shutdownWebOSShell()"><i class="fa-solid fa-power-off"></i> Exit System</button>
+      <button class="os-exit-shell-btn" onclick="shutdownWebOSShell()">❌ Exit System</button>
     </div>
 
-    <!-- Desktop window spawn area matrix -->
+    <!-- Desktop workspace window area -->
     <div class="os-desktop-area" id="os-workspace-canvas"></div>
 
-    <!-- Persistent app launcher quick tray dock -->
+    <!-- Persistent app launcher dock tray -->
     <div class="os-dock-panel">
-      <div class="dock-launcher-item" title="Launch Sandbox Web Browser" onclick="spawnSystemProcess('browser')"><i class="fa-solid fa-globe"></i></div>
-      <div class="dock-launcher-item" title="Launch Arcade Gameplay Arena" onclick="spawnSystemProcess('game')"><i class="fa-solid fa-gamepad"></i></div>
+      <div class="dock-launcher-item" title="Sandbox Browser" onclick="spawnSystemProcess('browser')">🌐</div>
+      <div class="dock-launcher-item" title="Geometry Dash Arena" onclick="spawnSystemProcess('game')">🕹️</div>
+      <div class="dock-launcher-item" title="HTML Code Lab" onclick="spawnSystemProcess('editor')">📝</div>
+      <div class="dock-launcher-item" title="Bytebeat Generator" onclick="spawnSystemProcess('bytebeat')">🎵</div>
     </div>
   </div>
 
@@ -469,27 +597,27 @@
   <script>
     let activePID = 0;
     let desktopTopFocusZ = 500;
+    let audioCtx = null;
 
     // View Navigation Module
     function switchView(viewId) {
       document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-      
       document.getElementById(viewId).classList.add('active');
       if (viewId === 'home-view') document.getElementById('btn-home').classList.add('active');
       if (viewId === 'hub-view') document.getElementById('btn-hub').classList.add('active');
     }
 
-    // WebOS Power Infrastructure Control Methods
+    // WebOS Boot Logic
     function bootWebOSShell() {
       document.getElementById('apex-webos-shell').style.display = 'block';
     }
 
     function shutdownWebOSShell() {
       const canvas = document.getElementById('os-workspace-canvas');
-      // Wipe structural nodes to clean up running game cycles and prevent memory usage building up
       canvas.querySelectorAll('.os-draggable-window').forEach(win => {
         if (win.dataset.loopEngineId) clearInterval(parseInt(win.dataset.loopEngineId));
+        if (win.dataset.bbInterval) clearInterval(parseInt(win.dataset.bbInterval));
       });
       canvas.innerHTML = '';
       document.getElementById('apex-webos-shell').style.display = 'none';
@@ -508,150 +636,35 @@
       winFrame.style.left = (50 + (activePID * 30) % 280) + 'px';
       winFrame.style.zIndex = desktopTopFocusZ;
 
-      let runtimeTitle = processType === 'browser' ? 'Web Browser Frame' : 'Geometry Dash Arcade Arena';
+      let runtimeTitle = '';
       let layoutPayload = '';
 
       if (processType === 'browser') {
-        layoutPayload = `<iframe src="https://example.com" class="os-window-iframe"></iframe>`;
-      } else {
+        runtimeTitle = 'HTTPS Web Browser Frame';
         layoutPayload = `
-          <div class="arcade-game-viewport" onclick="triggerInstanceJump(${activePID})">
-            <div class="arcade-ui-score" id="game-score-board-${activePID}">Score: 0</div>
-            <button class="arcade-ui-stop" onclick="toggleIsolatedGameEngineStop(event, ${activePID})">Stop</button>
-            <div class="arcade-player-avatar" id="game-avatar-${activePID}"></div>
-            <div class="arcade-level-spike" id="game-spike-${activePID}"></div>
-            <div class="arcade-level-floor"></div>
+          <div class="browser-address-container">
+            <span class="browser-https-tag">🔒 HTTPS://</span>
+            <input type="text" id="browser-url-${activePID}" class="browser-url-input" value="example.com" onkeydown="if(event.key==='Enter') executeBrowserNavigation(${activePID})">
+            <button class="browser-go-btn" onclick="executeBrowserNavigation(${activePID})">Go</button>
+          </div>
+          <iframe src="https://example.com" id="browser-iframe-${activePID}" class="os-window-iframe"></iframe>`;
+      } 
+      else if (processType === 'editor') {
+        runtimeTitle = 'HTML Live Workspace Editor';
+        layoutPayload = `
+          <div class="html-editor-workspace">
+            <div class="html-editor-controlbar">
+              <span style="font-size:0.8rem; color:var(--text-muted); font-weight:bold; padding:4px;">Workspace Code Block</span>
+              <button class="html-run-btn" onclick="executeHtmlCompile(${activePID})">▶ Run Code</button>
+            </div>
+            <textarea id="html-code-${activePID}" class="html-code-textarea" placeholder="Enter HTML/CSS script blocks..."><h2 style='color:#007aff; text-align:center; margin-top:20px;'>Apex Sandbox Output</h2></textarea>
+            <iframe id="html-preview-${activePID}" class="html-live-output"></iframe>
           </div>`;
       }
-
-      winFrame.innerHTML = `
-        <div class="os-window-titlebar" onmousedown="engageFrameDrag(event, 'pid-frame-${activePID}')">
-          <div><i class="${processType === 'browser' ? 'fa-solid fa-globe' : 'fa-solid fa-circle-play'}"></i> ${runtimeTitle} [PID: ${activePID}]</div>
-          <div class="window-control-dots">
-            <button class="win-dot dot-expand" onclick="toggleFrameMaximize('pid-frame-${activePID}')"></button>
-            <button class="win-dot dot-kill" onclick="killSystemProcess('pid-frame-${activePID}')"></button>
-          </div>
-        </div>
-        <div class="os-window-body">${layoutPayload}</div>
-      `;
-
-      // Click to focus layer arrangement
-      winFrame.addEventListener('mousedown', () => {
-        desktopTopFocusZ++;
-        winFrame.style.zIndex = desktopTopFocusZ;
-      });
-
-      workspace.appendChild(winFrame);
-
-      if (processType === 'game') {
-        initializeIsolatedGameLoop(activePID);
-      }
-    }
-
-    function killSystemProcess(frameId) {
-      const targetWin = document.getElementById(frameId);
-      if (targetWin.dataset.loopEngineId) {
-        clearInterval(parseInt(targetWin.dataset.loopEngineId));
-      }
-      targetWin.remove();
-    }
-
-    function toggleFrameMaximize(frameId) {
-      document.getElementById(frameId).classList.toggle('maximized');
-    }
-
-    // Drag tracking module
-    function engageFrameDrag(e, frameId) {
-      if (e.target.classList.contains('win-dot')) return;
-      const targetFrame = document.getElementById(frameId);
-      if (targetFrame.classList.contains('maximized')) return;
-
-      desktopTopFocusZ++;
-      targetFrame.style.zIndex = desktopTopFocusZ;
-
-      let cursorX = e.clientX;
-      let cursorY = e.clientY;
-
-      function trackingMotion(e) {
-        let offsetX = cursorX - e.clientX;
-        let offsetY = cursorY - e.clientY;
-        cursorX = e.clientX;
-        cursorY = e.clientY;
-        targetFrame.style.top = (targetFrame.offsetTop - offsetY) + "px";
-        targetFrame.style.left = (targetFrame.offsetLeft - offsetX) + "px";
-      }
-
-      function breakTracking() {
-        document.removeEventListener('mousemove', trackingMotion);
-        document.removeEventListener('mouseup', breakTracking);
-      }
-
-      document.addEventListener('mousemove', trackingMotion);
-      document.addEventListener('mouseup', breakTracking);
-    }
-
-    // Isolated Side-Scroller Physics Core Runtime
-    function triggerInstanceJump(pid) {
-      const characterElement = document.getElementById(`game-avatar-${pid}`);
-      if (!characterElement || characterElement.classList.contains('jump-physics-active')) return;
-      characterElement.classList.add('jump-physics-active');
-      setTimeout(() => {
-        if (characterElement) characterElement.classList.remove('jump-physics-active');
-      }, 450);
-    }
-
-    function toggleIsolatedGameEngineStop(e, pid) {
-      e.stopPropagation(); // Block viewport container canvas body jump events 
-      const masterWinFrame = document.getElementById(`pid-frame-${pid}`);
-      
-      if (masterWinFrame.dataset.isEnginePaused === "true") {
-        masterWinFrame.dataset.isEnginePaused = "false";
-        e.target.innerText = "Stop";
-        e.target.style.background = "#ef4444";
-        initializeIsolatedGameLoop(pid);
-      } else {
-        masterWinFrame.dataset.isEnginePaused = "true";
-        e.target.innerText = "Resume";
-        e.target.style.background = "var(--primary)";
-        clearInterval(parseInt(masterWinFrame.dataset.loopEngineId));
-      }
-    }
-
-    function initializeIsolatedGameLoop(pid) {
-      const winInstance = document.getElementById(`pid-frame-${pid}`);
-      clearInterval(parseInt(winInstance.dataset.loopEngineId));
-
-      let scoreCounter = parseInt(winInstance.dataset.savedScore || 0);
-      let dangerSpikeX = parseInt(winInstance.dataset.savedSpikeX || 520);
-
-      const readoutMetrics = document.getElementById(`game-score-board-${pid}`);
-      const obstacleNode = document.getElementById(`game-spike-${pid}`);
-      const characterNode = document.getElementById(`game-avatar-${pid}`);
-
-      let localizedIntervalId = setInterval(() => {
-        dangerSpikeX -= 7;
-        if (dangerSpikeX < -25) {
-          dangerSpikeX = 490;
-          scoreCounter += 10;
-          if (readoutMetrics) readoutMetrics.innerText = "Score: " + scoreCounter;
-          winInstance.dataset.savedScore = scoreCounter;
-        }
-
-        if (obstacleNode) obstacleNode.style.left = dangerSpikeX + "px";
-        winInstance.dataset.savedSpikeX = dangerSpikeX;
-
-        // Bounding collision checks inside responsive frames
-        if (dangerSpikeX > 60 && dangerSpikeX < 96 && characterNode && !characterNode.classList.contains('jump-physics-active')) {
-          clearInterval(localizedIntervalId);
-          alert(`Instance Finished! PID Frame [${pid}] total score calculation reached: ${scoreCounter}`);
-          winInstance.dataset.savedScore = 0;
-          winInstance.dataset.savedSpikeX = 520;
-          initializeIsolatedGameLoop(pid);
-        }
-      }, 22);
-
-      winInstance.dataset.loopEngineId = localizedIntervalId;
-    }
-  </script>
-</body>
-</html>
+      else if (processType === 'bytebeat') {
+        runtimeTitle = 'Bytebeat Audio Sequencer';
+        layoutPayload = `
+          <div class="bytebeat-workspace">
+            <input type="text" id="bb-formula-${activePID}" class="bytebeat-input" value="(t*5&t>>7)|t*3&t>>10">
+            <div class="bytebeat-controls">
+              <button class="bb-btn
